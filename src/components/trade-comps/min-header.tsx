@@ -105,12 +105,12 @@ const MinHeader = () => {
                             >
                                 <p>
                                     {' '}
-                                    {list.prefix && <span>$</span>}{' '}
+                                    {list.prefix && <span>$</span>}
                                     {list.amount}{' '}
                                 </p>
                                 {list.subAmount && (
                                     <p style={{ color: list.subColor }}>
-                                        / ${list.subAmount}{' '}
+                                        /${list.subAmount}{' '}
                                     </p>
                                 )}
                             </div>

@@ -24,7 +24,7 @@ const Header = () => {
         { title: 'Dashboard', link: '/dashboard' },
     ]
     return (
-        <div className="flex px-[2rem] font-inter header sticky top-0 w-full z-[50] justify-between  items-center h-[70px] ">
+        <div className="flex px-[2rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[70px] ">
             {/* links and logo */}
             <div className="md:flex md:gap-[2rem] lg:gap-[4rem] hidden items-center">
                 {/* logo */}
