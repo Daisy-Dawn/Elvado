@@ -8,6 +8,7 @@ import {
     Button,
     FormControlLabel,
     styled,
+    SelectChangeEvent,
 } from '@mui/material'
 // import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { FaCirclePlus } from 'react-icons/fa6'
@@ -47,14 +48,14 @@ const CustomCheckbox = styled(Checkbox)({
 })
 
 const Marketcomp = () => {
-    const [leverage, setLeverage] = useState(15)
+    const [leverage, setLeverage] = useState<number>(15)
     const [activeButton, setActiveButton] = useState('buy/long')
     const [DepositButton, setDepositButton] = useState('deposit')
     const [amount, setAmount] = useState(0)
 
-    // const handleChange = (e: number) => {
-    //     setLeverage(e.target.value)
-    // }
+    const handleAmountChange = (event: SelectChangeEvent<unknown>) => {
+        setLeverage(event.target.value as number)
+    }
 
     return (
         <div className="min-h-screen flex flex-col gap-[0.5rem] px-[1rem] py-[0.5rem]">
@@ -66,7 +67,7 @@ const Marketcomp = () => {
 
                 <StyledSelect
                     value={leverage}
-                    onChange={(e) => setLeverage(e.target.value)}
+                    onChange={handleAmountChange}
                     size="small"
                     className="min-w-[70px] text-[12px] font-semibold flex justify-center items-center rounded-r-[6px] h-[30px]"
                 >

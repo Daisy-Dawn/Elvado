@@ -23,6 +23,8 @@ const Header = () => {
         { title: 'Trade', link: '/' },
         { title: 'Dashboard', link: '/dashboard' },
     ]
+
+    const hideNav = pathname === '/meme/create-meme'
     return (
         <div className="flex px-[2rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[70px] ">
             {/* links and logo */}
@@ -45,34 +47,38 @@ const Header = () => {
                 </div>
 
                 {/* links */}
-                <div className="w-full hidden md:flex gap-2 p-[2px] ">
-                    <div className="h-[30px] bg-appStroke w-[3px]"></div>
-                    <div className="items-center justify-between md:flex p-[2px] gap-8">
-                        {navLinks.map((link, index) => (
-                            <Link
-                                href={link.link}
-                                key={index}
-                                className={` capitalize text-center  ${
-                                    pathname === link.link
-                                        ? 'text-appPurple underline'
-                                        : 'text-appGrey'
-                                }`}
-                            >
-                                {link.title}
-                            </Link>
-                        ))}
+                {!hideNav && (
+                    <div className="w-full hidden md:flex gap-2 p-[2px] ">
+                        <div className="h-[30px] bg-appStroke w-[3px]"></div>
+                        <div className="items-center justify-between md:flex p-[2px] gap-8">
+                            {navLinks.map((link, index) => (
+                                <Link
+                                    href={link.link}
+                                    key={index}
+                                    className={` capitalize text-center  ${
+                                        pathname === link.link
+                                            ? 'text-appPurple underline'
+                                            : 'text-appGrey'
+                                    }`}
+                                >
+                                    {link.title}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {/* button */}
-            <div className="hidden md:block">
-                <button
-                    className="btn-flip "
-                    data-back="Connect wallet"
-                    data-front="Connect wallet"
-                ></button>
-            </div>
+            {!hideNav && (
+                <div className="hidden md:block">
+                    <button
+                        className="btn-flip "
+                        data-back="Connect wallet"
+                        data-front="Connect wallet"
+                    ></button>
+                </div>
+            )}
 
             {/* RESPONSIVENESS */}
 

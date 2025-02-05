@@ -34,7 +34,7 @@ const OpenOrdersTables = () => {
         },
     ]
     return (
-        <TableContainer>
+        <TableContainer sx={{ mb: '2rem' }}>
             <Table
                 size="small"
                 sx={{
@@ -50,7 +50,9 @@ const OpenOrdersTables = () => {
             >
                 <TableHead>
                     <TableRow>
-                        <TableCell>Contracts</TableCell>
+                        <TableCell>
+                            <p className="ml-[20px]">Contracts</p>
+                        </TableCell>
                         <TableCell sx={{ textAlign: 'center' }}>
                             Filled/Total
                         </TableCell>
@@ -84,18 +86,20 @@ const OpenOrdersTables = () => {
                             <TableRow key={index}>
                                 {/* contracts */}
                                 <TableCell>
-                                    <div className="flex items-center gap-1">
-                                        <span className="font-semibold text-foreground">
-                                            {order.contracts}
-                                        </span>
-                                    </div>
-                                    <div
-                                        style={{
-                                            color: '#CFD3E5',
-                                            fontSize: '12px',
-                                        }}
-                                    >
-                                        Perpetual
+                                    <div className="ml-[20px]">
+                                        <div className="flex items-center gap-1">
+                                            <span className="font-semibold text-foreground">
+                                                {order.contracts}
+                                            </span>
+                                        </div>
+                                        <div
+                                            style={{
+                                                color: '#CFD3E5',
+                                                fontSize: '12px',
+                                            }}
+                                        >
+                                            Perpetual
+                                        </div>
                                     </div>
                                 </TableCell>
                                 {/* filled/total */}
@@ -114,10 +118,15 @@ const OpenOrdersTables = () => {
                                 <TableCell
                                     sx={{
                                         textAlign: 'center',
-                                        color: '#40E080',
                                     }}
                                 >
-                                    <p className="text-appGreen">
+                                    <p
+                                        className={` ${
+                                            order.tradeType === 'Buy'
+                                                ? 'text-appGreen'
+                                                : 'text-appDarkRed'
+                                        }`}
+                                    >
                                         {order.tradeType}
                                     </p>
                                 </TableCell>

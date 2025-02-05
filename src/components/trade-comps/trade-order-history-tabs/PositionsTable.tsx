@@ -85,7 +85,7 @@ const PositionsTable = () => {
         },
     ]
     return (
-        <TableContainer>
+        <TableContainer sx={{ mb: '2rem' }}>
             <Table
                 size="small"
                 sx={{
@@ -95,13 +95,16 @@ const PositionsTable = () => {
                         color: '#CFD3E5',
                         fontWeight: '400',
                         fontSize: '12px',
+
                         borderBottom: '1px solid #2C2D31',
                     },
                 }}
             >
                 <TableHead>
                     <TableRow>
-                        <TableCell>Symbol</TableCell>
+                        <TableCell>
+                            <p className="ml-[20px]">Symbol</p>
+                        </TableCell>
                         <TableCell sx={{ textAlign: 'end' }}>Size</TableCell>
                         <TableCell sx={{ textAlign: 'end' }}>Margin</TableCell>
                         <TableCell sx={{ textAlign: 'end' }}>
@@ -135,23 +138,25 @@ const PositionsTable = () => {
                             <TableRow key={index}>
                                 {/* symbol */}
                                 <TableCell>
-                                    <div className="flex items-center gap-1">
-                                        <span className="font-semibold text-foreground">
-                                            {position.symbol}
-                                        </span>
-                                        {index === 0 && (
-                                            <span className="flex justify-center items-center text-[10px] leading-none py-[3px] px-1 text-center text-[#CDB064] bg-[#353120]">
-                                                {position.leverage}
+                                    <div className="ml-[20px]">
+                                        <div className="flex  items-center gap-1">
+                                            <span className="font-semibold text-foreground">
+                                                {position.symbol}
                                             </span>
-                                        )}
-                                    </div>
-                                    <div
-                                        style={{
-                                            color: '#CFD3E5',
-                                            fontSize: '12px',
-                                        }}
-                                    >
-                                        Perpetual
+                                            {index === 0 && (
+                                                <span className="flex justify-center items-center text-[10px] leading-none py-[3px] px-1 text-center text-[#CDB064] bg-[#353120]">
+                                                    {position.leverage}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div
+                                            style={{
+                                                color: '#CFD3E5',
+                                                fontSize: '12px',
+                                            }}
+                                        >
+                                            Perpetual
+                                        </div>
                                     </div>
                                 </TableCell>
                                 {/* size */}

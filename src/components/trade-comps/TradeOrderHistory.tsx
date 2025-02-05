@@ -8,17 +8,36 @@ import {
     styled,
     FormControlLabel,
     Checkbox,
+    Button,
 } from '@mui/material'
-import PositionsTable from './PositionsTable'
-import OpenOrdersTables from './OpenOrdersTables'
+import PositionsTable from './trade-order-history-tabs/PositionsTable'
+import OpenOrdersTables from './trade-order-history-tabs/OpenOrdersTables'
+import OrderHistoryTable from './trade-order-history-tabs/OrderHistoryTable'
+import PaymentsTable from './trade-order-history-tabs/PaymentsTable'
+import AssetsTable from './trade-order-history-tabs/AssetsTable'
 
-// Custom styled components to match the design
 const StyledTab = styled(Tab)({
     textTransform: 'none',
     minWidth: 'auto',
     padding: '2px 14px !important',
     // minHeight: '32px !important',
     marginRight: '7px',
+    // marginBottom: '5px',
+    fontSize: '13px',
+    borderRight: '1px solid #2C2D31',
+    color: '#CFD3E5',
+    '&.Mui-selected': {
+        color: '#B5A8F7',
+        borderBottom: 'none !important',
+    },
+})
+const StyledTab1 = styled(Tab)({
+    textTransform: 'none',
+    minWidth: 'auto',
+    padding: '2px 14px !important',
+    // minHeight: '32px !important',
+    marginRight: '7px',
+    marginLeft: '20px',
     // marginBottom: '5px',
     fontSize: '13px',
     borderRight: '1px solid #2C2D31',
@@ -52,8 +71,27 @@ const CustomCheckbox = styled(Checkbox)({
     },
 })
 
+const CloseAllButton = styled(Button)({
+    backgroundColor: '#DC2626',
+    borderRadius: '8px',
+    color: 'white',
+    textTransform: 'none',
+    padding: '1.5px 16px',
+    fontSize: '12px',
+    '&:hover': {
+        backgroundColor: '#cc2f2f',
+    },
+})
+
 const TradeOrderHistory = () => {
     const [tabValue, setTabValue] = useState(0)
+    const [hideAssets, setHideAssets] = useState<boolean>(false)
+
+    const handleCheckboxChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setHideAssets(event.target.checked)
+    }
 
     return (
         <div className="min-h-[50vh] text-[13px] py-[0.5rem]">
@@ -69,7 +107,7 @@ const TradeOrderHistory = () => {
                         },
                     }}
                 >
-                    <StyledTab
+                    <StyledTab1
                         label={<StyledBadge>Positions (5)</StyledBadge>}
                     />
                     <StyledTab
@@ -80,20 +118,47 @@ const TradeOrderHistory = () => {
                     <StyledTab label="Assets" />
                 </Tabs>
 
-                <FormControlLabel
-                    control={<CustomCheckbox size="small" />}
-                    label="Show All Positions"
-                    sx={{
-                        '& .MuiTypography-root': {
-                            fontSize: '13px',
-                        },
-                    }}
-                />
+                {tabValue === 0 && (
+                    <FormControlLabel
+                        control={<CustomCheckbox size="small" />}
+                        label="Show All Positions"
+                        sx={{
+                            '& .MuiTypography-root': {
+                                fontSize: '13px',
+                            },
+                        }}
+                    />
+                )}
+                {tabValue === 1 && (
+                    <div className="flex justify-end">
+                        <CloseAllButton>Close all positions</CloseAllButton>
+                    </div>
+                )}
+                {tabValue === 4 && (
+                    <FormControlLabel
+                        control={
+                            <CustomCheckbox
+                                size="small"
+                                checked={hideAssets}
+                                onChange={handleCheckboxChange}
+                            />
+                        }
+                        label="Hide Assets"
+                        sx={{
+                            '& .MuiTypography-root': {
+                                fontSize: '13px',
+                            },
+                        }}
+                    />
+                )}
             </div>
 
             {/* display tabs */}
             {tabValue === 0 && <PositionsTable />}
             {tabValue === 1 && <OpenOrdersTables />}
+            {tabValue === 2 && <OrderHistoryTable />}
+            {tabValue === 3 && <PaymentsTable />}
+            {tabValue === 4 && <AssetsTable hideAssets={hideAssets} />}
         </div>
     )
 }
