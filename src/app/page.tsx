@@ -9,7 +9,7 @@ export default function Home() {
         <div className="min-h-screen">
             <MinHeader />
 
-            <div className="trade-layout">
+            <div className="trade-layout w-full">
                 <div className="trading-view-screen rounded-r-[8px]">
                     <TradingviewScreen />
                 </div>

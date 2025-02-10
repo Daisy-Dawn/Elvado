@@ -54,11 +54,11 @@ const MinHeader = () => {
     ]
     return (
         <div className="w-full flex items-center border-y-[4px] border-y-[#2C2D31] min-h-[40px]">
-            <div className="flex px-[2rem] py-[0.5rem] w-full gap-[2rem] items-center">
+            <div className="flex px-[1rem] py-[0.5rem] w-full gap-[2rem] items-center">
                 {/* btc logo and balance */}
                 <div className="flex w-[18%] justify-between items-center">
                     {/* btc logo */}
-                    <div className="flex gap-[4px]">
+                    <div className="flex items-center gap-[12px]">
                         <div className="w-[16px] h-[16px]">
                             <Image
                                 src="/images/header-square.svg"
@@ -77,13 +77,15 @@ const MinHeader = () => {
                                 className="w-full h-full object-contain"
                             />
                         </div>
+
+                        {/* btcusd */}
+                        <p className="font-semibold text-[15px]">BTCUSD</p>
                     </div>
 
-                    {/* btcusd */}
-                    <p>BTCUSD</p>
-
                     {/* balance */}
-                    <p className="text-appPurple text-[19px]">$90,672.00</p>
+                    <p className="text-appPurple font-semibold text-[18px]">
+                        $90,672.00
+                    </p>
                 </div>
 
                 {/* trade chart */}
@@ -91,7 +93,7 @@ const MinHeader = () => {
                     {tradingList.map((list, index) => (
                         <div
                             key={index}
-                            className="px-4 flex flex-col gap-1 items-center justify-center border-x-[1px] border-x-[#374151]"
+                            className="px-4 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]"
                         >
                             <p className="text-appLightGrey text-[12px] capitalize">
                                 {' '}
@@ -100,7 +102,9 @@ const MinHeader = () => {
                             <div
                                 style={{ color: list.color }}
                                 className={`${
-                                    list.subAmount ? 'flex' : 'block'
+                                    list.subAmount
+                                        ? 'flex justify-start'
+                                        : 'block'
                                 } text-[13px]`}
                             >
                                 <p>

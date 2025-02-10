@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
 import { Button, styled } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { IoMdCloseCircle } from 'react-icons/io'
 
 interface Wallet {
     logo: string
@@ -21,7 +23,7 @@ const CustomButton = styled(Button)({
     padding: '10px 25px',
     // fontSize: '14px',
     '&:hover': {
-        backgroundColor: '#E6E6FA',
+        backgroundColor: '#9186C6',
     },
 })
 
@@ -83,7 +85,10 @@ export default function ConnectWallet() {
     }
     return (
         <div className="w-full h-screen flex justify-center items-start md:items-center">
-            <div className="xl:w-[40%] lg:w-[60%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] bg-background flex flex-col gap-[1rem]">
+            <div className="xl:w-[35%] lg:w-[60%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] bg-[#111111] flex flex-col gap-[1rem]">
+                <Link href="/" className="flex w-full justify-end">
+                    <IoMdCloseCircle className="text-appPurple " size={26} />
+                </Link>
                 {/* header logo */}
                 <div className="flex justify-center items-center gap-2">
                     <div className="w-[40px] h-[40px]">
@@ -111,29 +116,29 @@ export default function ConnectWallet() {
                         />
                         <FiSearch
                             className="text-appPurple mr-4 md:mr-0"
-                            size={25}
+                            size={20}
                         />
                     </div>
 
                     {/* wallets */}
-                    <div className="flex flex-wrap mt-[2rem] gap-4">
+                    <div className="flex flex-wrap mt-[1rem] gap-4">
                         {walletList.map((wallet) => (
                             <button
                                 key={wallet.active}
                                 onClick={() => handleClick(wallet)}
-                                className={`border-[3px] rounded-[8px] py-[0.8rem] px-[0.8rem] flex gap-2 items-center transition-all 
+                                className={`border-[2px] rounded-[8px] py-[0.5rem] px-[0.7rem] flex gap-2 items-center transition-all 
                         ${
                             activeButton === wallet.active
                                 ? 'border-appPurple'
                                 : 'border-[#4B5563] hover:border-appPurple'
                         }`}
                             >
-                                <div className="w-[27px] h-[27px]">
+                                <div className="w-[25px] h-[25px]">
                                     <Image
                                         src={wallet.logo}
                                         alt={`${wallet.name} Logo`}
-                                        width={27}
-                                        height={27}
+                                        width={25}
+                                        height={25}
                                         className="w-full h-full object-contain"
                                     />
                                 </div>
@@ -151,24 +156,24 @@ export default function ConnectWallet() {
 
                 {/* signin */}
                 <div className="flex justify-between text-appGrey items-center">
-                    <p>Sign in with key</p>
+                    <p className="text-[12px]">Sign in with key</p>
                     <div className="flex items-center gap-2">
-                        <div className="w-[20px] h-[20px]">
+                        <div className="w-[18px] h-[18px]">
                             <Image
                                 src="/images/connect-wallet/qrcode.svg"
                                 alt="QR code"
-                                width={20}
-                                height={20}
+                                width={18}
+                                height={18}
                                 className="w-full h-full object-contain"
                             />
                         </div>
-                        <p>Scan QR Code</p>
+                        <p className="text-[12px]">Scan QR Code</p>
                     </div>
                 </div>
 
                 {/* or */}
-                <div className="border-[#4B5563] mb-4 w-full relative border-[1px]">
-                    <p className="py-0 px-4 absolute bg-background left-[47%] top-[-15px]">
+                <div className="border-t-[#4B5563] mb-6 w-full relative border-t-[1px]">
+                    <p className="py-0 px-4 text-[11px] absolute bg-background left-[47%] top-[-10px]">
                         or
                     </p>
                 </div>

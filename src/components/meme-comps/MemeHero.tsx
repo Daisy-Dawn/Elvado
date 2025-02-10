@@ -16,7 +16,7 @@ const CustomButton = styled(Button)({
     padding: '10px 25px',
     // fontSize: '14px',
     '&:hover': {
-        backgroundColor: '#E6E6FA',
+        backgroundColor: '#9186C6',
     },
 })
 const MemeHero = () => {
@@ -31,33 +31,33 @@ const MemeHero = () => {
                 </Link>
 
                 {/* meme card */}
-                <div className="md:w-[70%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]">
-                    <div className="bg-[#2C2D31] overflow-hidden w-[100px] h-[80px] md:w-[200px] md:h-[160px] flex justify-center rounded-[17px]">
+                <div className="md:w-[65%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2.5rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]">
+                    <div className="bg-[#2C2D31] overflow-hidden w-[45%] h-[80px] md:w-[200px] md:h-full flex justify-center rounded-[17px]">
                         <Image
                             width={200}
-                            height={145}
+                            height={200}
                             className="h-full w-full object-contain"
                             src="/images/meme/pepe-coin.png"
                             alt="pepe coin"
                         />
                     </div>
 
-                    <div className="flex flex-col items-center md:items-start w-full text-appGrey gap-1">
-                        <h3 className="font-medium md:text-[24px] leading-none md:leading-normal text-[18px] text-appPurple">
+                    <div className="flex flex-col w-[55%] items-center md:items-start text-foreground ">
+                        <h3 className="font-medium md:text-[22px] leading-none md:leading-normal text-[18px] text-appPurple">
                             RETARDED PEPE
                         </h3>
-                        <p className=" text-[14px] md:text-[17px]">
+                        <p className=" text-[14px] text-foreground md:text-[18px]">
                             Created by czed
                         </p>
                         <div className=" hidden md:flex justify-between w-full items-center">
                             <p className=" text-[17px]">Market cap:</p>
-                            <p className="text-appPurple font-medium text-[20px]">
+                            <p className="text-appPurple font-medium text-[22px]">
                                 $60k
                             </p>
                         </div>
                         <div className="hidden md:flex  justify-between w-full items-center">
                             <p className=" text-[17px]">Delegated%:</p>
-                            <p className="text-appPurple font-medium text-[20px]">
+                            <p className="text-appPurple font-medium text-[22px]">
                                 60%
                             </p>
                         </div>
@@ -98,7 +98,7 @@ const MemeHero = () => {
                             size={25}
                         />
                     </div>
-                    <button className="w-[25%] hidden h-full md:flex justify-center hover:bg-[#E6E6FA] items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
+                    <button className="w-[25%] hidden h-full md:flex justify-center hover:bg-appPurpleHover items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
                         Search
                     </button>
                 </div>

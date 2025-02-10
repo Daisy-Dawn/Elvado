@@ -43,7 +43,7 @@ const CustomButton = styled(Button)({
     padding: '10px 25px',
     // fontSize: '14px',
     '&:hover': {
-        backgroundColor: '#E6E6FA',
+        backgroundColor: '#9186C6',
     },
 })
 
@@ -77,20 +77,20 @@ export default function CreateMeme() {
     }
     return (
         <div className=" w-full mb-[3rem] flex justify-center items-center">
-            <div className="lg:w-[50%] md:w-[70%] w-[85%] flex flex-col gap-[0.5rem]">
-                <h2 className="text-center mb-[0.5rem] font-medium text-[19px] md:text-[25px]">
+            <div className="lg:w-[27%] md:w-[50%] w-[50%] flex flex-col gap-[0.7rem]">
+                <h2 className="text-center mb-[0.5rem] font-medium text-[19px] md:text-[20px]">
                     Create your own token
                 </h2>
 
                 {/* form */}
-                <form className="flex flex-col gap-[0.5rem]" action="">
+                <form className="flex flex-col gap-[0.8rem]" action="">
                     {/* name */}
                     <div className="flex flex-col">
                         <p className="text-[14px] md:text-base">Name</p>
                         <input
                             type="text"
                             name="name"
-                            className="md:py-[15px] py-[10px]  w-full border-[1px] rounded-[13px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                            className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
                         />
                     </div>
                     {/* ticker */}
@@ -99,7 +99,7 @@ export default function CreateMeme() {
                         <input
                             type="text"
                             name="ticker"
-                            className="md:py-[15px] py-[10px] w-full border-[1px] rounded-[13px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                            className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
                         />
                     </div>
                     {/* bio */}
@@ -108,14 +108,14 @@ export default function CreateMeme() {
                         <input
                             type="text"
                             name="bio"
-                            className="md:py-[15px] py-[10px] w-full border-[1px] rounded-[13px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                            className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
                         />
                     </div>
                     {/* Image upload */}
                     <div className="flex flex-col">
                         <p className="text-[14px] md:text-base">Image</p>
                         <div
-                            className={`md:py-[15px] py-[10px] flex flex-col md:flex-row justify-center items-center gap-[0.5rem] md:gap-[1.5rem] w-full border-[2px] rounded-[13px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] 
+                            className={`py-[20px] flex flex-col md:flex-row justify-center items-center gap-[0.5rem]  w-full border-[2px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] 
             ${
                 dragging
                     ? 'border-dashed border-white'
@@ -128,24 +128,24 @@ export default function CreateMeme() {
                             onDragLeave={() => setDragging(false)}
                             onDrop={handleDrop}
                         >
-                            <div className="flex flex-col items-center gap-[0.5rem] md:gap-[1.5rem]">
-                                <span className="md:w-[40px] w-[30px] h-[30px] md:h-[40px]">
+                            <div className="flex flex-col items-center gap-[0.5rem] ">
+                                <span className="md:w-[30px] w-[30px] h-[30px] md:h-[30px]">
                                     <Image
-                                        width={40}
-                                        height={40}
+                                        width={30}
+                                        height={30}
                                         alt="upload"
                                         src="/images/meme/upload.svg"
                                         className="h-full w-full object-contain"
                                     />
                                 </span>
 
-                                <p className="text-appGrey2 text-[13px] md:text-base text-center">
+                                <p className="text-appGrey2 text-[13px] text-center">
                                     {file
                                         ? `Selected: ${file.name}`
                                         : 'Drag and drop an image or click to upload'}
                                 </p>
 
-                                <label className="cursor-pointer bg-[#2C2D31] text-appPurple text-[13px] md:text-base py-2 px-6 rounded-md hover:bg-appPurple hover:text-appDarkBlue transition">
+                                <label className="cursor-pointer bg-[#2C2D31] text-appPurple text-[13px] py-2 px-6 rounded-md hover:bg-appPurple hover:text-appDarkBlue transition">
                                     Select a File
                                     <input
                                         type="file"
@@ -181,7 +181,7 @@ export default function CreateMeme() {
                             onChange={handleAmountChange}
                             IconComponent={SlArrowDown}
                             size="small"
-                            className="md:py-[6px] py-[2px] w-full border-[1px] rounded-[13px] border-appPurple bg-[#171717] px-[10px] md:px-[20px]"
+                            className="w-full border-[1px] rounded-[13px] border-appPurple bg-[#171717] "
                         >
                             <MenuItem value="100">$100</MenuItem>
                             <MenuItem value="300">$300</MenuItem>
@@ -191,7 +191,7 @@ export default function CreateMeme() {
                     </div>
 
                     {/* token fee */}
-                    <div className="flex justify-between mt-[2rem] mb-2 items-center">
+                    <div className="flex justify-between mt-[2rem] mb-[1rem] items-center">
                         <p className="text-[14px] md:text-base">Token Fee:</p>
                         <p className="font-medium  uppercase text-[16px] md:text-[18px]">
                             150XP

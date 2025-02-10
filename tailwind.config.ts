@@ -21,6 +21,7 @@ export default {
                 appDarkerPurple: '#B5A8F7',
                 appDarkBlue: '#1C1C1C',
                 appLightGrey: '#B5B7C1',
+                appPurpleHover: '#9186C6',
             },
             fontFamily: {
                 inter: ['Inter', 'serif'],

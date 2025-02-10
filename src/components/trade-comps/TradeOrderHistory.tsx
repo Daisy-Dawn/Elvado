@@ -28,6 +28,7 @@ const StyledTab = styled(Tab)({
     color: '#CFD3E5',
     '&.Mui-selected': {
         color: '#B5A8F7',
+        fontWeight: '500',
         borderBottom: 'none !important',
     },
 })
@@ -130,7 +131,7 @@ const TradeOrderHistory = () => {
                     />
                 )}
                 {tabValue === 1 && (
-                    <div className="flex justify-end">
+                    <div className="flex justify-end mr-4">
                         <CloseAllButton>Close all positions</CloseAllButton>
                     </div>
                 )}

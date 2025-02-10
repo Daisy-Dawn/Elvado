@@ -36,36 +36,36 @@ const Header = () => {
     return (
         <>
             {!hideNav2 && (
-                <div className="flex px-[2rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[70px] ">
+                <div className="flex px-[2rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[60px] ">
                     {/* links and logo */}
                     <div className="md:flex md:gap-[2rem] lg:gap-[4rem] hidden items-center">
                         {/* logo */}
-                        <div className="flex items-center gap-[2px]">
-                            <div className="w-[40px] h-[40px]">
+                        <Link href="/" className="flex items-center ">
+                            <div className="w-[37px] h-[37px]">
                                 <Image
                                     src="/images/Elvado logo.png"
                                     alt="Elvado Logo"
-                                    width={40}
-                                    height={40}
+                                    width={37}
+                                    height={37}
                                     className="w-full h-full object-contain"
                                 />
                             </div>
 
-                            <p className="text-appPurple font-medium text-[21px]">
+                            <p className="text-appPurple font-medium text-[19px]">
                                 Elvado
                             </p>
-                        </div>
+                        </Link>
 
                         {/* links */}
                         {!hideNav && (
                             <div className="w-full hidden md:flex gap-2 p-[2px] ">
-                                <div className="h-[30px] bg-appStroke w-[3px]"></div>
+                                <div className="h-[30px] bg-appStroke mr-3 w-[3px]"></div>
                                 <div className="items-center justify-between md:flex p-[2px] gap-8">
                                     {navLinks.map((link, index) => (
                                         <Link
                                             href={link.link}
                                             key={index}
-                                            className={` capitalize text-center  ${
+                                            className={` capitalize hover:text-appPurple text-center  ${
                                                 pathname === link.link
                                                     ? 'text-appPurple underline'
                                                     : 'text-appGrey'
@@ -157,7 +157,7 @@ const Header = () => {
                                 : 'slide-out-left'
                         } items-start justify-start glass-background opacity-50 top-0 bg-appDarkerPurple text-appDarkBlue absolute py-[38px] px-[20px] left-0  z-10 w-[65%]  h-dvh nav shadow-lg transition-all duration-300 gap-4 md:hidden`}
                     >
-                        <div className="h-[50px]">
+                        <Link href="/" className="h-[50px]">
                             {/* logo */}
                             <div className="flex items-center gap-[2px]">
                                 <div className="w-[40px] h-[40px]">
@@ -174,7 +174,7 @@ const Header = () => {
                                     Elvado
                                 </p>
                             </div>
-                        </div>
+                        </Link>
                         {navLinks.map((link, index) => (
                             <Link
                                 href={link.link}

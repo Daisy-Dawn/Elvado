@@ -1,8 +1,6 @@
 'use client'
 import React from 'react'
-import LimitComp from './trade-sidebar-comps/LimitComp'
-import StopLimitComp from './trade-sidebar-comps/StopLimitComp'
-import Marketcomp from './trade-sidebar-comps/Marketcomp'
+import SideViewComp from './trade-sidebar-comps/SideViewComp'
 
 const TradeSidebar = () => {
     const [activeButton, setActiveButton] = React.useState('market')
@@ -44,11 +42,7 @@ const TradeSidebar = () => {
             </div>
 
             {/* Display */}
-            <div className="">
-                {activeButton === 'limit' && <LimitComp />}
-                {activeButton === 'market' && <Marketcomp />}
-                {activeButton === 'stop-limit' && <StopLimitComp />}
-            </div>
+            <SideViewComp activeButton={activeButton} />
         </div>
     )
 }

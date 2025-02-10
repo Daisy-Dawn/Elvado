@@ -59,7 +59,7 @@ const MemeCoinsDisplay = () => {
     ]
 
     return (
-        <div className="flex flex-col mt-[2rem] gap-[2rem]">
+        <div className="flex flex-col px-0 lg:px-[4rem] mt-[2rem] gap-[2.5rem]">
             {/* top buttons */}
             <div className="flex bg-[#222222] w-fit rounded-[8px] gap-[1px] items-center">
                 <CustomButton
