@@ -22,7 +22,7 @@ const CustomButton = styled(Button)({
 const MemeHero = () => {
     return (
         <div className="min-h-[50vh] flex justify-center items-center">
-            <div className="w-[60%] flex flex-col items-center gap-[2rem]">
+            <div className="xl:w-[60%] lg:w-[80%] w-full flex flex-col items-center gap-[2rem]">
                 <Link href="/meme/create-meme">
                     <CustomButton>
                         Create Your own Meme{' '}
@@ -31,51 +31,74 @@ const MemeHero = () => {
                 </Link>
 
                 {/* meme card */}
-                <div className="w-[70%] border-[#B5A8F7] rounded-[11px] flex  gap-[2rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-[1.5rem] px-[2.5rem] border-[1px]">
-                    <div className="bg-[#2C2D31] flex justify-center rounded-[17px]">
-                        <div className="w-[190px] h-[190px]">
-                            <Image
-                                width={190}
-                                height={190}
-                                className="h-full w-full object-contain"
-                                src="/images/meme/pepe-coin.png"
-                                alt="pepe coin"
-                            />
-                        </div>
+                <div className="md:w-[70%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]">
+                    <div className="bg-[#2C2D31] overflow-hidden w-[100px] h-[80px] md:w-[200px] md:h-[160px] flex justify-center rounded-[17px]">
+                        <Image
+                            width={200}
+                            height={145}
+                            className="h-full w-full object-contain"
+                            src="/images/meme/pepe-coin.png"
+                            alt="pepe coin"
+                        />
                     </div>
 
-                    <div className="flex flex-col w-full text-appGrey gap-1">
-                        <h3 className="font-medium text-[24px] text-appPurple">
+                    <div className="flex flex-col items-center md:items-start w-full text-appGrey gap-1">
+                        <h3 className="font-medium md:text-[24px] leading-none md:leading-normal text-[18px] text-appPurple">
                             RETARDED PEPE
                         </h3>
-                        <p className=" text-[17px]">Created by czed</p>
-                        <div className="flex justify-between w-full items-center">
+                        <p className=" text-[14px] md:text-[17px]">
+                            Created by czed
+                        </p>
+                        <div className=" hidden md:flex justify-between w-full items-center">
                             <p className=" text-[17px]">Market cap:</p>
                             <p className="text-appPurple font-medium text-[20px]">
                                 $60k
                             </p>
                         </div>
-                        <div className="flex justify-between w-full items-center">
+                        <div className="hidden md:flex  justify-between w-full items-center">
                             <p className=" text-[17px]">Delegated%:</p>
                             <p className="text-appPurple font-medium text-[20px]">
                                 60%
                             </p>
                         </div>
-                        <p className="text-appPurple italic text-[17.5px]">
+                        {/* small screen delegated and market price */}
+                        <div className="flex w-[70%] md:hidden justify-between items-center">
+                            <div className="flex items-center flex-col">
+                                <p className=" text-[14px] md:text-[17px]]">
+                                    Market cap:
+                                </p>
+                                <p className="text-appPurple font-medium text-[17px] md:text-[20px]">
+                                    $60k
+                                </p>
+                            </div>
+
+                            <div className="flex items-center flex-col">
+                                <p className=" text-[14px] md:text-[17px]">
+                                    Delegated%:
+                                </p>
+                                <p className="text-appPurple font-medium text-[17px] md:text-[20px]">
+                                    60%
+                                </p>
+                            </div>
+                        </div>
+                        <p className="md:text-appPurple text-foreground md:italic text-[14px] md:text-[17.5px]">
                             This is the best meme token created by man
                         </p>
                     </div>
                 </div>
 
-                <div className="w-full bg-[#2C2D31] overflow-hidden rounded-[8px] flex items-center">
-                    <div className="w-[75%] flex items-center">
+                <div className="w-full bg-[#2C2D31] overflow-hidden rounded-none md:rounded-[8px] flex items-center">
+                    <div className="md:w-[75%] w-full flex items-center">
                         <input
                             placeholder="Search for token"
-                            className="py-[15px] w-[93%] outline-none bg-transparent placeholder:text-appGrey2 px-[20px]"
+                            className="md:py-[15px] py-[10px] w-[93%] outline-none bg-transparent placeholder:text-appGrey2 px-[15px] md:px-[20px]"
                         />
-                        <BiSearchAlt className="text-[#A6A7A9]" size={25} />
+                        <BiSearchAlt
+                            className="text-[#A6A7A9] mr-4 md:mr-0"
+                            size={25}
+                        />
                     </div>
-                    <button className="w-[25%] h-full flex justify-center hover:bg-[#E6E6FA] items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
+                    <button className="w-[25%] hidden h-full md:flex justify-center hover:bg-[#E6E6FA] items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
                         Search
                     </button>
                 </div>

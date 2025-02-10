@@ -43,8 +43,8 @@ const CustomButton1 = styled(Button)({
 export default function BuyOrSellMeme() {
     const [activeButton, setActiveButton] = useState<string>('Buy')
     return (
-        <div className="w-full min-h-[85vh] flex justify-center items-center">
-            <div className="w-[40%] shadow-sm rounded-[8px] py-[2rem] px-[2rem] bg-[#06070A] bg-opacity-40 flex flex-col gap-[1rem]">
+        <div className="w-full min-h-[85vh] flex justify-center items-start md:items-center">
+            <div className="xl:w-[40%] lg:w-[60%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] md:bg-[#06070A] md:bg-opacity-40 flex flex-col gap-[1rem]">
                 {/* top buttons */}
                 <div className="flex justify-center items-center">
                     <div className="flex  bg-[#222222] w-fit rounded-[8px] gap-[1px] items-center">
@@ -65,7 +65,7 @@ export default function BuyOrSellMeme() {
 
                 {/* balance */}
                 <div className="flex justify-center items-center">
-                    <div className="bg-[#171717] px-[15px] py-[10px] w-fit border-[1px] border-appPurple rounded-[11px]">
+                    <div className="bg-[#171717] px-[15px] py-[15px] w-fit border-[1px] border-appPurple rounded-[11px]">
                         <p className="font-medium text-[17px]">
                             Balance:{' '}
                             <span className="font-semibold">5000Usdt</span>
@@ -74,24 +74,24 @@ export default function BuyOrSellMeme() {
                 </div>
 
                 {/* amount */}
-                <div className="flex w-full flex-col">
+                <div className="flex w-full mt-[1.5rem] md:mt-0 flex-col">
                     <p>Enter Amount</p>
-                    <div className="w-full py-[15px] px-[20px] bg-[#171717] border-[1px] border-appPurple overflow-hidden rounded-[13px] flex items-center">
+                    <div className="w-full py-[12px] md:py-[15px] px-[20px] bg-[#171717] border-[1px] border-appPurple overflow-hidden rounded-[13px] flex items-center">
                         <input
                             placeholder="Min amount is 100 Usdt"
                             type="text"
                             name="amount"
-                            className=" w-full placeholder:text-appPurple  outline-none bg-transparent  "
+                            className=" w-full placeholder:text-appPurple placeholder:text-[13px] md:placeholder:text-base  outline-none bg-transparent  "
                         />
 
-                        <div className="bg-appPurple  text-appDarkBlue py-1 px-1">
+                        <div className="bg-appPurple  text-appDarkBlue text-[12px] md:text-base py-[1px] md:py-1 px-[1px] md:px-1">
                             Max
                         </div>
                     </div>
                 </div>
 
                 {/* you'd get comp */}
-                <div className="flex justify-between mt-[1rem] mb-2 items-center">
+                <div className="flex justify-between mt-[1rem] mb-[1.5rem] md:mb-2 items-center">
                     <p className="text-[17px]">You&apos;d get:</p>
                     <p className="font-medium uppercase text-[20px]">500PWD</p>
                 </div>
