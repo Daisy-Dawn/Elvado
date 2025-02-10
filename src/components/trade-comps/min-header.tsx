@@ -83,7 +83,7 @@ const MinHeader = () => {
                     <p>BTCUSD</p>
 
                     {/* balance */}
-                    <p className="text-appPurple text-[21px]">$90,672.00</p>
+                    <p className="text-appPurple text-[19px]">$90,672.00</p>
                 </div>
 
                 {/* trade chart */}
