@@ -183,10 +183,10 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
 
             {/* Available Balance */}
             <div className="justify-between mt-[1rem] text-[11px] xl:text-[13.5px] flex items-center">
-                <p className="text-appGrey text-[11px] xl:text-[13px]">
+                <p className="text-appGrey text-[11px] 2xl:text-[13px]">
                     Available Balance
                 </p>
-                <p className="text-end flex gap-1 text-[11px] xl:text-[13px] xl:items-center font-semibold">
+                <p className="text-end flex gap-1 text-[11px] 2xl:text-[13px] xl:items-center font-semibold">
                     1,550.85 USD{' '}
                     <button>
                         <FaCirclePlus color="#B7ABF7" />
@@ -304,7 +304,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                         color: buyorSellBtn === 'buy/long' ? '#1C1C1C' : '',
                         borderRadius: '8px',
                         textTransform: 'capitalize',
-                        minWidth: '120px',
+                        minWidth: '100px',
                         '&:hover': {
                             bgcolor: '#9186C6',
                             color: '#1C1C1C',
@@ -323,7 +323,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                                 : '#2C2D31',
                         borderRadius: '8px',
                         textTransform: 'capitalize',
-                        minWidth: '120px',
+                        minWidth: '100px',
                         color: buyorSellBtn === 'sell/short' ? '#1C1C1C' : '',
                         '&:hover': {
                             bgcolor: '#2C2D31',
@@ -370,7 +370,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                         color:
                             DepositButton === 'deposit' ? '#1C1C1C' : '#CFD3E5',
                         borderRadius: '8px',
-                        minWidth: '120px',
+                        minWidth: '100px',
                         textTransform: 'capitalize',
                         // color: '#1C1C1C',
                         '&:hover': { bgcolor: '#9061F9' },
@@ -390,7 +390,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                         fontWeight:
                             DepositButton === 'withdraw' ? '500' : '400',
                         borderRadius: '8px',
-                        minWidth: '120px',
+                        minWidth: '100px',
                         textTransform: 'capitalize',
                         color:
                             DepositButton === 'withdraw'

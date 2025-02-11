@@ -75,13 +75,15 @@ export default function BuyOrSellMeme() {
 
                 {/* amount */}
                 <div className="flex w-full mt-[1.5rem] md:mt-0 flex-col">
-                    <p className="text-[14px] xl:text-[15px]">Enter Amount</p>
+                    <p className="text-[14px] font-light xl:text-[15px]">
+                        Enter Amount
+                    </p>
                     <div className="w-full py-[12px] md:py-[10px] px-[20px] bg-[#171717] border-[1px] border-appPurple overflow-hidden rounded-[13px] flex items-center">
                         <input
                             placeholder="Min amount is 100 Usdt"
                             type="text"
                             name="amount"
-                            className=" w-full placeholder:text-[#626570] placeholder:text-[8px] md:placeholder:text-base  outline-none bg-transparent  "
+                            className=" w-full placeholder:text-[#626570] placeholder:font-light placeholder:text-[8px] md:placeholder:text-base  outline-none bg-transparent  "
                         />
 
                         <div className="bg-appPurple rounded-[4px]  text-appDarkBlue text-[12px]  py-[1px] px-[1px] md:px-1">
@@ -92,7 +94,7 @@ export default function BuyOrSellMeme() {
 
                 {/* you'd get comp */}
                 <div className="flex justify-between  mb-[2.5rem]  items-center">
-                    <p className="text-[14px] xl:text-[15px]">
+                    <p className="text-[14px] font-light xl:text-[15px]">
                         You&apos;d get:
                     </p>
                     <p className="font-medium uppercase text-[18px] xl:text-[20px]">

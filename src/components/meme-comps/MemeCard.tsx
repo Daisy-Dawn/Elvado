@@ -33,22 +33,26 @@ const MemeCard = ({
                 <h3 className="font-medium uppercase text-[15px] xl:text-[17px] leading-none md:leading-tight md:text-[18px] text-appPurple">
                     {name}
                 </h3>
-                <p className=" text-[13px] xl:text-[16px]">
+                <p className=" text-[13px] font-[200] xl:text-[16px]">
                     Created by {createdBy}
                 </p>
                 <div className="flex justify-between w-full items-center">
-                    <p className=" text-[13px] xl:text-[14px]">Market cap:</p>
+                    <p className=" text-[13px] font-[200] xl:text-[14px]">
+                        Market cap:
+                    </p>
                     <p className="text-appPurple font-semibold text-[14.5px] xl:text-[18px]">
                         {marketCap}
                     </p>
                 </div>
                 <div className="flex justify-between w-full items-center">
-                    <p className=" text-[13px] xl:text-[14px]">Delegated%:</p>
+                    <p className=" text-[13px] font-[200] xl:text-[14px]">
+                        Delegated%:
+                    </p>
                     <p className="text-appPurple font-semibold text-[14.5px] xl:text-[18px]">
                         {delegated}
                     </p>
                 </div>
-                <p className="text-appPurple italic text-[12px] xl:text-[13px]">
+                <p className="text-appPurple font-[200] italic text-[12px] xl:text-[13px]">
                     {remark}
                 </p>
             </div>

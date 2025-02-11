@@ -12,7 +12,7 @@ const TradeSidebar = () => {
                     className={`h-full ${
                         activeButton === 'limit'
                             ? 'bg-appPurple text-appDarkBlue'
-                            : 'bg-[#1C1C1C] text-appPurple'
+                            : 'bg-[#1C1C1C] text-foreground'
                     }   py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200`}
                     onClick={() => setActiveButton('limit')}
                 >
@@ -22,7 +22,7 @@ const TradeSidebar = () => {
                     className={`h-full ${
                         activeButton === 'market'
                             ? 'bg-appPurple text-appDarkBlue'
-                            : 'bg-[#1C1C1C] text-appPurple'
+                            : 'bg-[#1C1C1C] text-foreground'
                     }
                         py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200 border-x-[1px] border-x-[#374151]`}
                     onClick={() => setActiveButton('market')}
@@ -33,7 +33,7 @@ const TradeSidebar = () => {
                     className={`h-full ${
                         activeButton === 'stop-limit'
                             ? 'bg-appPurple text-appDarkBlue'
-                            : 'bg-[#1C1C1C] text-appPurple'
+                            : 'bg-[#1C1C1C] text-foreground'
                     } py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200`}
                     onClick={() => setActiveButton('stop-limit')}
                 >

@@ -95,7 +95,9 @@ export default function CreateMeme() {
                     <form className="flex flex-col gap-[0.8rem]" action="">
                         {/* name */}
                         <div className="flex flex-col">
-                            <p className="text-[14px] xl:text-[14.5px]">Name</p>
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
+                                Name
+                            </p>
                             <input
                                 type="text"
                                 name="name"
@@ -104,7 +106,7 @@ export default function CreateMeme() {
                         </div>
                         {/* ticker */}
                         <div className="flex flex-col">
-                            <p className="text-[14px] xl:text-[14.5px]">
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
                                 Ticker
                             </p>
                             <input
@@ -115,7 +117,9 @@ export default function CreateMeme() {
                         </div>
                         {/* bio */}
                         <div className="flex flex-col">
-                            <p className="text-[14px] xl:text-[14.5px]">Bio</p>
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
+                                Bio
+                            </p>
                             <input
                                 type="text"
                                 name="bio"
@@ -124,11 +128,11 @@ export default function CreateMeme() {
                         </div>
                         {/* Image upload */}
                         <div className="flex flex-col">
-                            <p className="text-[14px] xl:text-[14.5px]">
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
                                 Image
                             </p>
                             <div
-                                className={`py-[20px] flex flex-col md:flex-row justify-center items-center gap-[0.5rem]  w-full border-[2px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] 
+                                className={`py-[20px] flex flex-col md:flex-row justify-center items-center gap-[0.5rem]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] 
             ${
                 dragging
                     ? 'border-dashed border-white'
@@ -152,7 +156,7 @@ export default function CreateMeme() {
                                         />
                                     </span>
 
-                                    <p className="text-appGrey2 text-[13px] text-center">
+                                    <p className="text-appGrey2  font-light text-[13px] text-center">
                                         {file
                                             ? `Selected: ${file.name}`
                                             : 'Drag and drop an image or click to upload'}
@@ -186,7 +190,7 @@ export default function CreateMeme() {
 
                         {/* base amount */}
                         <div className="flex flex-col">
-                            <p className="text-[14px] xl:text-[14.5px]">
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
                                 Set base amount
                             </p>
                             <StyledSelect
@@ -205,7 +209,7 @@ export default function CreateMeme() {
 
                         {/* token fee */}
                         <div className="flex justify-between mt-[2rem] mb-[1rem] items-center">
-                            <p className="text-[14px] xl:text-[14.5px]">
+                            <p className="text-[14px] font-light xl:text-[14.5px]">
                                 Token Fee:
                             </p>
                             <p className="font-medium  uppercase text-[16px] xl:text-[18px]">
