@@ -198,7 +198,7 @@ export default function CreateMeme() {
                                 onChange={handleAmountChange}
                                 IconComponent={SlArrowDown}
                                 size="small"
-                                className="w-full border-[1px] rounded-[13px] border-appPurple bg-[#171717] "
+                                className="w-full border-[1px] overflow-hidden rounded-[13px] border-appPurple bg-[#171717] "
                             >
                                 <MenuItem value="100">$100</MenuItem>
                                 <MenuItem value="300">$300</MenuItem>
