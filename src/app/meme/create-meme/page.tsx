@@ -16,16 +16,16 @@ const StyledSelect = styled(Select)({
     backgroundColor: '#2C2D31',
     color: '#fff',
     // padding: '3px 3px',
-    borderRadius: '0px 6px 6px 0px',
+    borderRadius: '8px',
     '& .MuiOutlinedInput-root': {
-        borderRadius: '0px 6px 6px 0px', // Apply border-radius to top-right and bottom-right
+        borderRadius: '8px', // Apply border-radius to top-right and bottom-right
         backgroundColor: '#2C2D31', // Ensure the background remains consistent
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',
     },
     '& .MuiSelect-root': {
-        padding: '0 6px', // Add extra padding if needed for spacing consistency
+        padding: '0 6px',
     },
     '& .MuiSelect-icon': {
         color: '#fff', // Change the color
@@ -198,7 +198,7 @@ export default function CreateMeme() {
                                 onChange={handleAmountChange}
                                 IconComponent={SlArrowDown}
                                 size="small"
-                                className="w-full border-[1px] overflow-hidden rounded-[13px] border-appPurple bg-[#171717] "
+                                className="w-full border-[1px] overflow-hidden rounded-[8px] border-appPurple bg-[#171717] "
                             >
                                 <MenuItem value="100">$100</MenuItem>
                                 <MenuItem value="300">$300</MenuItem>
