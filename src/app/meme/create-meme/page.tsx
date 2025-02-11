@@ -13,12 +13,12 @@ import Link from 'next/link'
 import { IoCloseSharp } from 'react-icons/io5'
 
 const StyledSelect = styled(Select)({
-    backgroundColor: '#2C2D31',
+    backgroundColor: '#171717',
     color: '#fff',
-    // padding: '3px 3px',
+    border: '1px solid #B7ABF7',
     borderRadius: '8px',
     '& .MuiOutlinedInput-root': {
-        borderRadius: '8px', // Apply border-radius to top-right and bottom-right
+        borderRadius: '8px',
         backgroundColor: '#2C2D31', // Ensure the background remains consistent
     },
     '& .MuiOutlinedInput-notchedOutline': {
@@ -198,7 +198,7 @@ export default function CreateMeme() {
                                 onChange={handleAmountChange}
                                 IconComponent={SlArrowDown}
                                 size="small"
-                                className="w-full border-[1px] overflow-hidden rounded-[8px] border-appPurple bg-[#171717] "
+                                // className="w-full border-[1px] overflow-hidden rounded-[8px] border-appPurple bg-[#171717] "
                             >
                                 <MenuItem value="100">$100</MenuItem>
                                 <MenuItem value="300">$300</MenuItem>
