@@ -36,18 +36,18 @@ const Header = () => {
     return (
         <>
             {!hideNav2 && (
-                <div className="flex px-[2rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[60px] ">
+                <div className="flex px-[0.8rem] font-inter header bg-background sticky top-0 w-full z-[20] justify-between  items-center h-[60px] ">
                     {/* links and logo */}
                     <div className="md:flex md:gap-[2rem] lg:gap-[4rem] hidden items-center">
                         {/* logo */}
                         <Link href="/" className="flex items-center ">
                             <div className="w-[37px] h-[37px]">
                                 <Image
-                                    src="/images/Elvado logo.png"
+                                    src="/elvado-logo.svg"
                                     alt="Elvado Logo"
                                     width={37}
                                     height={37}
-                                    className="w-full h-full object-contain"
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
 
@@ -162,7 +162,7 @@ const Header = () => {
                             <div className="flex items-center gap-[2px]">
                                 <div className="w-[40px] h-[40px]">
                                     <Image
-                                        src="/images/Elvado logo.png"
+                                        src="/elvado-logo.svg"
                                         alt="Elvado Logo"
                                         width={40}
                                         height={40}

@@ -19,8 +19,8 @@ export const metadata: Metadata = {
     title: 'Elvado',
     description: 'Trading site',
     icons: {
-        icon: '/images/Elvado logo.png', // Default favicon
-        shortcut: '/images/Elvado logo.png',
+        icon: '/elvado-logo.svg', // Default favicon
+        shortcut: '/elvado-logo.svg',
     },
 }
 

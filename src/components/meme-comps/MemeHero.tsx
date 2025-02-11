@@ -91,18 +91,18 @@ const MemeHero = () => {
                     </div>
                 </div>
 
-                <div className="w-full bg-[#2C2D31] overflow-hidden rounded-none md:rounded-[8px] flex items-center">
-                    <div className="md:w-[75%] w-full flex items-center">
+                <div className="w-[70%] bg-[#2C2D31] overflow-hidden rounded-none md:rounded-[8px] flex items-center">
+                    <div className="md:w-[80%] w-full flex items-center">
                         <input
                             placeholder="Search for token"
-                            className="md:py-[15px] py-[10px] w-[93%] outline-none bg-transparent placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                            className="md:py-[15px] placeholder:font-extralight py-[10px] w-[93%] outline-none bg-transparent placeholder:text-appGrey2 px-[15px] md:px-[20px]"
                         />
                         <BiSearchAlt
                             className="text-[#A6A7A9] mr-4 md:mr-0"
                             size={25}
                         />
                     </div>
-                    <button className="w-[25%] hidden h-full md:flex justify-center hover:bg-appPurpleHover items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
+                    <button className="w-[20%] hidden h-full md:flex justify-center hover:bg-appPurpleHover items-center text-center py-[15px] text-appDarkBlue px-[20px] bg-appPurple">
                         Search
                     </button>
                 </div>

@@ -19,7 +19,7 @@ const TradingviewScreen = () => {
     ]
     return (
         <div className="min-h-[50vh]">
-            <div className="border-b-[1px] text-[12px] py-[1rem] px-[2rem] border-[#374151] flex justify-between items-center ">
+            <div className="border-b-[1px] text-[12px] py-[1rem] px-[1rem] border-[#374151] flex justify-between items-center ">
                 <div className="flex justify-between text-appGrey w-1/2 items-center">
                     {viewList.map((item, index) => (
                         <p key={index} className="flex gap-2">

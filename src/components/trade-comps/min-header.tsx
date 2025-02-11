@@ -54,7 +54,7 @@ const MinHeader = () => {
     ]
     return (
         <div className="w-full flex items-center border-y-[4px] border-y-[#2C2D31] min-h-[40px]">
-            <div className="flex lg:px-[0.5rem] xl:px-[1rem] py-[0.5rem] w-full gap-[1.3rem] 2xl:gap-[2rem] items-center">
+            <div className="flex lg:px-[0.5rem] xl:px-[1.2rem] py-[0.5rem] w-full gap-[1.3rem] 2xl:gap-[2rem] items-center">
                 {/* btc logo and balance */}
                 <div className="flex 2xl:w-[18%] xl:w-[20%] lg:w-[23%] justify-between items-center">
                     {/* btc logo */}

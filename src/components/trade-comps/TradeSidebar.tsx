@@ -9,32 +9,32 @@ const TradeSidebar = () => {
         <div className="min-h-[50vh]">
             <div className="border-b-[1px] text-[11.5px] xl:text-[12px]  border-b-[#374151] grid grid-cols-3  ">
                 <button
-                    className={`h-full ${
+                    className={` ${
                         activeButton === 'limit'
                             ? 'bg-appPurple text-appDarkBlue'
                             : 'bg-[#1C1C1C] text-foreground'
-                    }   py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200`}
+                    }   h-[40px] px-[0.25rem] flex justify-center items-center xl:px-[0.5rem] transition-all duration-200`}
                     onClick={() => setActiveButton('limit')}
                 >
                     Limit
                 </button>
                 <button
-                    className={`h-full ${
+                    className={` ${
                         activeButton === 'market'
                             ? 'bg-appPurple text-appDarkBlue'
                             : 'bg-[#1C1C1C] text-foreground'
                     }
-                        py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200 border-x-[1px] border-x-[#374151]`}
+                      h-[40px] flex justify-center items-center  py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200 border-x-[1px] border-x-[#374151]`}
                     onClick={() => setActiveButton('market')}
                 >
                     Market
                 </button>
                 <button
-                    className={`h-full ${
+                    className={` ${
                         activeButton === 'stop-limit'
                             ? 'bg-appPurple text-appDarkBlue'
                             : 'bg-[#1C1C1C] text-foreground'
-                    } py-[1rem] px-[0.25rem] xl:px-[0.5rem] transition-all duration-200`}
+                    } h-[40px] py-[1rem] flex justify-center items-center px-[0.25rem] xl:px-[0.5rem] transition-all duration-200`}
                     onClick={() => setActiveButton('stop-limit')}
                 >
                     Stop Limit

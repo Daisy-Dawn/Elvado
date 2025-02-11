@@ -79,10 +79,7 @@ export default function CreateMeme() {
     }
     return (
         <div className="  mb-[3rem] ">
-            <Link
-                href="/meme"
-                className="flex w-full mb-[2rem] px-[8rem] justify-end"
-            >
+            <Link href="/meme" className="flex w-[70%] mb-[2rem] justify-end">
                 <IoCloseSharp size={23} className="text-white" />
             </Link>
             <div className="flex w-full justify-center items-center">

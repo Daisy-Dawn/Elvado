@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
 import { Button, styled } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { IoCloseSharp } from 'react-icons/io5'
 
 interface Wallet {
@@ -86,16 +85,19 @@ export default function ConnectWallet() {
     return (
         <div className="w-full h-screen flex justify-center items-start md:items-center">
             <div className="2xl:w-[35%]  xl:w-[40%] lg:w-[50%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] bg-[#111111] flex flex-col gap-[1rem]">
-                <Link href="/" className="flex w-full justify-end">
+                <button
+                    onClick={() => router.back()}
+                    className="flex w-full justify-end"
+                >
                     <div className="relative border-[1px] flex justify-center items-center border-appPurple w-[24px] rounded-full h-[24px]">
                         <IoCloseSharp size={18} className="text-appPurple" />
                     </div>
-                </Link>
+                </button>
                 {/* header logo */}
                 <div className="flex justify-center items-center gap-2">
                     <div className="w-[40px] h-[40px]">
                         <Image
-                            src="/images/Elvado logo.png"
+                            src="/elvado-logo.svg"
                             alt="Elvado Logo"
                             width={40}
                             height={40}
