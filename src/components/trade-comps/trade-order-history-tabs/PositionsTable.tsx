@@ -198,10 +198,10 @@ const PositionsTable = () => {
                                     sx={{ textAlign: 'end' }}
                                 >
                                     <div className="flex gap-[8px] justify-end items-end">
-                                        <button className="bg-[#2C2D31] text-[#CFD3E5] py-[2px] px-[5px] rounded-[8px] text-[10px] hover:bg-[#B7ABF7] hover:text-[#1C1C1C]">
+                                        <button className="bg-[#2C2D31] text-[#CFD3E5] text-center flex justify-center items-center py-[2px] px-[5px] rounded-[8px] text-[10px] hover:bg-[#B7ABF7] hover:text-[#1C1C1C]">
                                             TP/SL
                                         </button>
-                                        <button className="bg-[#FF6B6B] text-[#fff] py-[2px] px-[5px] rounded-[8px] text-[9px] hover:bg-[#cc2f2f] ">
+                                        <button className="bg-[#FF6B6B] text-[#fff] flex justify-center items-center py-[2px] px-[5px] rounded-[8px] text-[9px] hover:bg-[#cc2f2f] ">
                                             Close
                                         </button>
                                     </div>
