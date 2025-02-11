@@ -92,7 +92,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                         onClick={handleClose}
                     >
                         <IoMdCloseCircle
-                            className="text-appStroke border-[1px] rounded-full border-white fill-appPurple"
+                            className="text-appStroke fill-appPurple"
                             size={24}
                         />
                     </button>
@@ -182,9 +182,11 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
             </Modal>
 
             {/* Available Balance */}
-            <div className="justify-between mt-[1rem] text-[13.5px] flex items-center">
-                <p className="text-appGrey text-[13px]">Available Balance</p>
-                <p className="text-end flex gap-1 text-[13px] items-center font-semibold">
+            <div className="justify-between mt-[1rem] text-[11px] xl:text-[13.5px] flex items-center">
+                <p className="text-appGrey text-[11px] xl:text-[13px]">
+                    Available Balance
+                </p>
+                <p className="text-end flex gap-1 text-[11px] xl:text-[13px] xl:items-center font-semibold">
                     1,550.85 USD{' '}
                     <button>
                         <FaCirclePlus color="#B7ABF7" />
@@ -205,6 +207,11 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                     </div>
                 )}
                 {activeButton === 'market' && (
+                    <p className="capitalize text-center w-full text-[14px] text-appPurple">
+                        Market Price
+                    </p>
+                )}
+                {activeButton === 'stop-limit' && (
                     <p className="capitalize text-center w-full text-[14px] text-appPurple">
                         Market Price
                     </p>

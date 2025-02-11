@@ -44,7 +44,7 @@ export default function BuyOrSellMeme() {
     const [activeButton, setActiveButton] = useState<string>('Buy')
     return (
         <div className="w-full min-h-[85vh] flex justify-center items-start md:items-center">
-            <div className="xl:w-[40%] lg:w-[60%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] md:bg-[#06070A] md:bg-opacity-40 flex flex-col gap-[1rem]">
+            <div className="xl:w-[40%] lg:w-[45%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] md:bg-[#06070A] md:bg-opacity-40 flex flex-col gap-[1rem]">
                 {/* top buttons */}
                 <div className="flex justify-center items-center">
                     <div className="flex  bg-[#222222] w-fit rounded-[8px] gap-[1px] items-center">
@@ -66,7 +66,7 @@ export default function BuyOrSellMeme() {
                 {/* balance */}
                 <div className="flex justify-center items-center">
                     <div className="bg-[#171717] px-[15px] py-[5px] w-fit border-[1px] border-appPurple rounded-[11px]">
-                        <p className=" text-[17px]">
+                        <p className=" text-[15px] xl:text-[17px]">
                             Balance:{' '}
                             <span className="font-medium">5000Usdt</span>
                         </p>
@@ -75,7 +75,7 @@ export default function BuyOrSellMeme() {
 
                 {/* amount */}
                 <div className="flex w-full mt-[1.5rem] md:mt-0 flex-col">
-                    <p>Enter Amount</p>
+                    <p className="text-[14px] xl:text-[15px]">Enter Amount</p>
                     <div className="w-full py-[12px] md:py-[10px] px-[20px] bg-[#171717] border-[1px] border-appPurple overflow-hidden rounded-[13px] flex items-center">
                         <input
                             placeholder="Min amount is 100 Usdt"
@@ -92,8 +92,12 @@ export default function BuyOrSellMeme() {
 
                 {/* you'd get comp */}
                 <div className="flex justify-between  mb-[2.5rem]  items-center">
-                    <p className="text-[15px]">You&apos;d get:</p>
-                    <p className="font-medium uppercase text-[20px]">500PWD</p>
+                    <p className="text-[14px] xl:text-[15px]">
+                        You&apos;d get:
+                    </p>
+                    <p className="font-medium uppercase text-[18px] xl:text-[20px]">
+                        500PWD
+                    </p>
                 </div>
 
                 {/* submit button */}

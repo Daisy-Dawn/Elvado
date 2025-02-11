@@ -76,30 +76,35 @@ const AssetsTable: React.FC<AssetsTableProps> = ({ hideAssets }) => {
                 size="small"
                 sx={{
                     color: '#CFD3E5',
+                    tableLayout: 'fixed', // Ensures fixed column widths
+                    width: '100%', // Ensures table spans full width
                     '& .MuiTableCell-root': {
-                        padding: '12px 10px !important',
+                        padding: '8px 10px !important',
                         color: '#CFD3E5',
                         fontWeight: '400',
-                        fontSize: '12px',
+                        fontSize: '11px',
                         borderBottom: '1px solid #2C2D31',
+                        overflow: 'hidden', // Prevents content overflow
+                        whiteSpace: 'nowrap', // Keeps content inline
+                        textOverflow: 'ellipsis', // Trims overflowing text
                     },
                 }}
             >
                 <TableHead>
                     <TableRow>
-                        <TableCell>
+                        <TableCell sx={{ width: '20%' }}>
                             <p className="ml-[20px]">Assets</p>
                         </TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>
+                        <TableCell sx={{ textAlign: 'center', width: '20%' }}>
                             Wallet Balance
                         </TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>
+                        <TableCell sx={{ textAlign: 'center', width: '20%' }}>
                             Unrealised PNL
                         </TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>
+                        <TableCell sx={{ textAlign: 'center', width: '20%' }}>
                             Margin Balance
                         </TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>
+                        <TableCell sx={{ textAlign: 'center', width: '20%' }}>
                             Available for Order
                         </TableCell>
                     </TableRow>
@@ -109,8 +114,7 @@ const AssetsTable: React.FC<AssetsTableProps> = ({ hideAssets }) => {
                     {!hideAssets ? (
                         assets.map((asset, index) => (
                             <TableRow key={index}>
-                                {/* time */}
-                                <TableCell>
+                                <TableCell sx={{ width: '20%' }}>
                                     <div className="ml-[20px] flex items-center gap-2">
                                         <div className="w-[23px] h-[23px]">
                                             <Image
@@ -118,41 +122,42 @@ const AssetsTable: React.FC<AssetsTableProps> = ({ hideAssets }) => {
                                                 height={23}
                                                 className="w-full h-full object-contain"
                                                 src={asset.assets.icon}
-                                                alt="assest icon"
+                                                alt="asset icon"
                                             />
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="font-semibold text-foreground">
                                                 {asset.assets.name}
                                             </p>
-                                            <p className="">
-                                                {asset.assets.subName}
-                                            </p>
+                                            <p>{asset.assets.subName}</p>
                                         </div>
                                     </div>
                                 </TableCell>
-                                {/* wallet balance */}
-                                <TableCell sx={{ textAlign: 'center' }}>
+                                <TableCell
+                                    sx={{ textAlign: 'center', width: '20%' }}
+                                >
                                     {asset.walletBalance}
                                 </TableCell>
-
-                                {/* unrealisedPNL */}
-                                <TableCell sx={{ textAlign: 'center' }}>
+                                <TableCell
+                                    sx={{ textAlign: 'center', width: '20%' }}
+                                >
                                     {asset.unrealisedPNL}
                                 </TableCell>
-                                {/* marginBalance */}
-                                <TableCell sx={{ textAlign: 'center' }}>
+                                <TableCell
+                                    sx={{ textAlign: 'center', width: '20%' }}
+                                >
                                     {asset.marginBalance}
                                 </TableCell>
-                                {/* availableForOrder */}
-                                <TableCell sx={{ textAlign: 'center' }}>
+                                <TableCell
+                                    sx={{ textAlign: 'center', width: '20%' }}
+                                >
                                     {asset.availableForOrder}
                                 </TableCell>
                             </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={9} sx={{ textAlign: 'start' }}>
+                            <TableCell colSpan={5} sx={{ textAlign: 'start' }}>
                                 <div className="flex min-h-[40vh] justify-center items-center">
                                     <p className="text-appGrey text-[15px] font-medium">
                                         Assets Hidden

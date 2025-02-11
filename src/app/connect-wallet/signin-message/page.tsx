@@ -2,7 +2,7 @@
 import { Button, styled } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
-import { IoMdCloseCircle } from 'react-icons/io'
+import { IoCloseSharp } from 'react-icons/io5'
 
 const CustomButton = styled(Button)({
     backgroundColor: '#B5A8F7',
@@ -34,12 +34,14 @@ const CustomButton1 = styled(Button)({
 export default function SigninMessage() {
     return (
         <div className="w-full h-screen flex justify-center items-start md:items-center">
-            <div className="xl:w-[32%] lg:w-[50%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] md:py-[3rem] px-[1rem] md:px-[2rem] bg-background flex flex-col gap-[1rem]">
+            <div className="2xl:w-[32%] xl:w-[35%] lg:w-[45%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] md:py-[3rem] px-[1rem] md:px-[2rem] bg-background flex flex-col gap-[1rem]">
                 <Link
                     href="/connect-wallet"
                     className="flex w-full justify-end"
                 >
-                    <IoMdCloseCircle className="text-appPurple " size={26} />
+                    <div className="relative border-[1px] flex justify-center items-center border-appPurple w-[24px] rounded-full h-[24px]">
+                        <IoCloseSharp size={18} className="text-appPurple" />
+                    </div>
                 </Link>
                 <p className="text-foreground text-center font-medium text-[21px]">
                     Sign Messages

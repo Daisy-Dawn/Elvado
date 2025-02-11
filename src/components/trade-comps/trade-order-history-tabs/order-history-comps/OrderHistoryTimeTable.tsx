@@ -46,10 +46,11 @@ const OrderHistoryTimeTable = () => {
                 sx={{
                     color: '#CFD3E5',
                     '& .MuiTableCell-root': {
-                        padding: '12px 10px !important',
+                        padding: '8px 10px !important',
                         color: '#CFD3E5',
                         fontWeight: '400',
-                        fontSize: '12px',
+                        fontSize: '11px',
+
                         borderBottom: '1px solid #2C2D31',
                     },
                 }}

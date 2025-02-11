@@ -7,11 +7,11 @@ import OrderHistoryTimeTable from './order-history-comps/OrderHistoryTimeTable'
 const StyledTab = styled(Tab)({
     textTransform: 'none',
     minWidth: 'auto',
-    padding: '2px 14px !important',
+    padding: '0px 14px !important',
     // minHeight: '32px !important',
     marginRight: '7px',
     // marginBottom: '5px',
-    fontSize: '12px',
+    fontSize: '11px',
     color: '#CFD3E5',
     '&.Mui-selected': {
         color: '#fff',
@@ -22,12 +22,12 @@ const StyledTab = styled(Tab)({
 const StyledTab1 = styled(Tab)({
     textTransform: 'none',
     minWidth: 'auto',
-    padding: '2px 14px !important',
+    padding: '0px 14px !important',
     // minHeight: '32px !important',
     marginRight: '7px',
     marginLeft: '20px',
     // marginBottom: '5px',
-    fontSize: '12px',
+    fontSize: '11px',
     color: '#CFD3E5',
     '&.Mui-selected': {
         color: '#fff',
@@ -37,7 +37,7 @@ const StyledTab1 = styled(Tab)({
 })
 const StyledBadge = styled(Badge)({
     '& .MuiBadge-badge': {
-        fontSize: ' 13px',
+        fontSize: ' 11px',
         // backgroundColor: '#333',
         // color: '#999',
         // right: -15,

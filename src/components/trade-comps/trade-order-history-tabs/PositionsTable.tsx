@@ -17,36 +17,13 @@ const CloseAllButton = styled(Button)({
     borderRadius: '8px',
     color: 'white',
     textTransform: 'none',
-    padding: '1.5px 16px',
-    fontSize: '12px',
+    padding: '1.5px 14px',
+    fontSize: '11px',
     '&:hover': {
         backgroundColor: '#cc2f2f',
     },
 })
 
-const CloseButton = styled(Button)(() => ({
-    backgroundColor: '#FF6B6B',
-    color: 'white',
-    textTransform: 'none',
-    fontSize: '10px',
-    padding: '2px 2px',
-    borderRadius: '8px',
-    '&:hover': {
-        backgroundColor: '#cc2f2f',
-    },
-}))
-
-const TPSLBadge = styled(Button)(() => ({
-    backgroundColor: '#2C2D31',
-    color: '#CFD3E5',
-    padding: '2px 2px',
-    borderRadius: '8px',
-    fontSize: '10px',
-    '&:hover': {
-        backgroundColor: '#B7ABF7',
-        color: '#1C1C1C',
-    },
-}))
 const PositionsTable = () => {
     const positions = [
         {
@@ -91,10 +68,10 @@ const PositionsTable = () => {
                 sx={{
                     color: '#CFD3E5',
                     '& .MuiTableCell-root': {
-                        padding: '12px 10px !important',
+                        padding: '8px 10px !important',
                         color: '#CFD3E5',
                         fontWeight: '400',
-                        fontSize: '12px',
+                        fontSize: '11px',
 
                         borderBottom: '1px solid #2C2D31',
                     },
@@ -216,17 +193,17 @@ const PositionsTable = () => {
                                         />
                                     </div>
                                 </TableCell>
-                                <TableCell sx={{ textAlign: 'end' }}>
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'end',
-                                            gap: '8px',
-                                        }}
-                                    >
-                                        <TPSLBadge>TP/SL</TPSLBadge>
-                                        <CloseButton>Close</CloseButton>
+                                <TableCell
+                                    colSpan={2}
+                                    sx={{ textAlign: 'end' }}
+                                >
+                                    <div className="flex gap-[8px] justify-end items-end">
+                                        <button className="bg-[#2C2D31] text-[#CFD3E5] py-[2px] px-[5px] rounded-[8px] text-[10px] hover:bg-[#B7ABF7] hover:text-[#1C1C1C]">
+                                            TP/SL
+                                        </button>
+                                        <button className="bg-[#FF6B6B] text-[#fff] py-[2px] px-[5px] rounded-[8px] text-[9px] hover:bg-[#cc2f2f] ">
+                                            Close
+                                        </button>
                                     </div>
                                 </TableCell>
                             </TableRow>

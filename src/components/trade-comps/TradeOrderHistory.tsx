@@ -16,13 +16,11 @@ import OrderHistoryTable from './trade-order-history-tabs/OrderHistoryTable'
 import PaymentsTable from './trade-order-history-tabs/PaymentsTable'
 import AssetsTable from './trade-order-history-tabs/AssetsTable'
 
-const StyledTab = styled(Tab)({
+const StyledTab = styled(Tab)(({ theme }) => ({
     textTransform: 'none',
     minWidth: 'auto',
     padding: '2px 14px !important',
-    // minHeight: '32px !important',
     marginRight: '7px',
-    // marginBottom: '5px',
     fontSize: '13px',
     borderRight: '1px solid #2C2D31',
     color: '#CFD3E5',
@@ -31,15 +29,18 @@ const StyledTab = styled(Tab)({
         fontWeight: '500',
         borderBottom: 'none !important',
     },
-})
-const StyledTab1 = styled(Tab)({
+    [theme.breakpoints.down('xl')]: {
+        padding: '0px 14px !important',
+        fontSize: '12px',
+    },
+}))
+
+const StyledTab1 = styled(Tab)(({ theme }) => ({
     textTransform: 'none',
     minWidth: 'auto',
     padding: '2px 14px !important',
-    // minHeight: '32px !important',
     marginRight: '7px',
     marginLeft: '20px',
-    // marginBottom: '5px',
     fontSize: '13px',
     borderRight: '1px solid #2C2D31',
     color: '#CFD3E5',
@@ -47,16 +48,20 @@ const StyledTab1 = styled(Tab)({
         color: '#B5A8F7',
         borderBottom: 'none !important',
     },
-})
-
-const StyledBadge = styled(Badge)({
-    '& .MuiBadge-badge': {
-        fontSize: ' 13px',
-        // backgroundColor: '#333',
-        // color: '#999',
-        // right: -15,
+    [theme.breakpoints.down('xl')]: {
+        padding: '0px 14px !important',
+        fontSize: '12px',
     },
-})
+}))
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        fontSize: '13px',
+        [theme.breakpoints.down('xl')]: {
+            fontSize: '12px',
+        },
+    },
+}))
 
 const CustomCheckbox = styled(Checkbox)({
     color: '#40E080', // Purple border when unchecked
@@ -77,7 +82,7 @@ const CloseAllButton = styled(Button)({
     borderRadius: '8px',
     color: 'white',
     textTransform: 'none',
-    padding: '1.5px 16px',
+    padding: '1.5px 10px',
     fontSize: '12px',
     '&:hover': {
         backgroundColor: '#cc2f2f',
@@ -125,7 +130,7 @@ const TradeOrderHistory = () => {
                         label="Show All Positions"
                         sx={{
                             '& .MuiTypography-root': {
-                                fontSize: '13px',
+                                fontSize: '12px',
                             },
                         }}
                     />

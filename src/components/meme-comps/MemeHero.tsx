@@ -22,7 +22,7 @@ const CustomButton = styled(Button)({
 const MemeHero = () => {
     return (
         <div className="min-h-[50vh] flex justify-center items-center">
-            <div className="xl:w-[60%] lg:w-[80%] w-full flex flex-col items-center gap-[2rem]">
+            <div className=" lg:w-[80%] w-full flex flex-col items-center gap-[2rem]">
                 <Link href="/meme/create-meme">
                     <CustomButton>
                         Create Your own Meme{' '}
@@ -31,7 +31,7 @@ const MemeHero = () => {
                 </Link>
 
                 {/* meme card */}
-                <div className="md:w-[65%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2.5rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]">
+                <div className="md:w-[70%] xl:w-[58%] 2xl:w-[65%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2.5rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]">
                     <div className="bg-[#2C2D31] overflow-hidden w-[45%] h-[80px] md:w-[200px] md:h-full flex justify-center rounded-[17px]">
                         <Image
                             width={200}
@@ -64,7 +64,7 @@ const MemeHero = () => {
                         {/* small screen delegated and market price */}
                         <div className="flex w-[70%] md:hidden justify-between items-center">
                             <div className="flex items-center flex-col">
-                                <p className=" text-[14px] md:text-[17px]]">
+                                <p className=" text-[14px] md:text-[17px]">
                                     Market cap:
                                 </p>
                                 <p className="text-appPurple font-medium text-[17px] md:text-[20px]">
@@ -81,7 +81,7 @@ const MemeHero = () => {
                                 </p>
                             </div>
                         </div>
-                        <p className="md:text-appPurple text-foreground md:italic text-[14px] md:text-[17.5px]">
+                        <p className="md:text-appPurple text-foreground md:italic text-[14px] lg:text-[15px] xl:text-[17.5px]">
                             This is the best meme token created by man
                         </p>
                     </div>
