@@ -2,15 +2,17 @@
 import React, { ChangeEvent, DragEvent, useState } from 'react'
 import Image from 'next/image'
 import {
-    Button,
+    Alert,
     MenuItem,
     Select,
     SelectChangeEvent,
+    Snackbar,
     styled,
 } from '@mui/material'
 import { SlArrowDown } from 'react-icons/sl'
 import Link from 'next/link'
 import { IoCloseSharp } from 'react-icons/io5'
+import { useRouter } from 'next/navigation'
 
 const StyledSelect = styled(Select)({
     backgroundColor: '#171717',
@@ -19,7 +21,7 @@ const StyledSelect = styled(Select)({
     borderRadius: '8px',
     '& .MuiOutlinedInput-root': {
         borderRadius: '8px',
-        backgroundColor: '#2C2D31', // Ensure the background remains consistent
+        backgroundColor: '#2C2D31',
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',
@@ -28,24 +30,9 @@ const StyledSelect = styled(Select)({
         padding: '0 6px',
     },
     '& .MuiSelect-icon': {
-        color: '#fff', // Change the color
-        fontSize: '18px', // Adjust the size
-        right: '30px', // Move it to the right
-    },
-})
-
-const CustomButton = styled(Button)({
-    backgroundColor: '#B5A8F7',
-    minWidth: '100px',
-
-    borderRadius: '14px',
-    color: '#222',
-    fontWeight: '500',
-    textTransform: 'none',
-    padding: '10px 25px',
-    // fontSize: '14px',
-    '&:hover': {
-        backgroundColor: '#9186C6',
+        color: '#fff',
+        fontSize: '18px',
+        right: '30px',
     },
 })
 
@@ -54,6 +41,59 @@ export default function CreateMeme() {
     const [preview, setPreview] = useState<string | null>(null)
     const [dragging, setDragging] = useState<boolean>(false)
     const [baseAmount, setBaseAmount] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [ticker, setTicker] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [errors, setErrors] = useState({
+        name: '',
+        ticker: '',
+        description: '',
+    })
+    const [alert, setAlert] = useState<{
+        open: boolean
+        type: 'success' | 'error'
+        message: string
+    }>({
+        open: false,
+        type: 'success',
+        message: '',
+    })
+    const router = useRouter()
+
+    const validateForm = () => {
+        const newErrors: typeof errors = {
+            name: '',
+            ticker: '',
+            description: '',
+        }
+        let isValid = true
+
+        if (!name.trim()) {
+            newErrors.name = 'Name is required!'
+            isValid = false
+        }
+        if (!ticker.trim()) {
+            newErrors.ticker = 'Ticker is required!'
+            isValid = false
+        }
+        if (!description.trim()) {
+            newErrors.description = 'Description is required!'
+            isValid = false
+        }
+
+        setErrors(newErrors)
+        return isValid
+    }
+
+    const handleInputChange =
+        (
+            setter: React.Dispatch<React.SetStateAction<string>>,
+            field: keyof typeof errors
+        ) =>
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setter(e.target.value)
+            setErrors((prev) => ({ ...prev, [field]: '' })) // Clear error when user types
+        }
 
     const handleAmountChange = (event: SelectChangeEvent<unknown>) => {
         setBaseAmount(event.target.value as string)
@@ -77,8 +117,75 @@ export default function CreateMeme() {
             setPreview(URL.createObjectURL(droppedFile)) // Generate preview URL
         }
     }
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault()
+
+        if (!validateForm()) return
+
+        const payload = { name, ticker, description }
+
+        try {
+            const response = await fetch(
+                process.env.NEXT_PUBLIC_CREATE_TOKEN as string,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                }
+            )
+
+            if (!response.ok) {
+                setAlert({
+                    open: true,
+                    type: 'error',
+                    message: 'Failed to create meme token. Please try again.',
+                })
+                console.error('Error creating token:', response.statusText)
+                return
+            }
+
+            const data = await response.json()
+            console.log('Token Created:', data)
+            setName('')
+            setTicker('')
+            setDescription('')
+            setAlert({
+                open: true,
+                type: 'success',
+                message: 'Token created successfully!',
+            })
+
+            setTimeout(() => {
+                router.push('/meme')
+            }, 2000)
+        } catch (error) {
+            console.error('Error:', error)
+            setAlert({
+                open: true,
+                type: 'error',
+                message: 'Error creating token. Please try again.',
+            })
+        }
+    }
+
+    const isFormValid = name.trim() && ticker.trim() && description.trim()
+
     return (
         <div className="  mb-[3rem] ">
+            {/* Success/Error Alert */}
+            <Snackbar
+                open={alert.open}
+                autoHideDuration={4000}
+                onClose={() => setAlert({ ...alert, open: false })}
+            >
+                <Alert
+                    severity={alert.type}
+                    onClose={() => setAlert({ ...alert, open: false })}
+                >
+                    {alert.message}
+                </Alert>
+            </Snackbar>
             <Link href="/meme" className="flex w-[70%] mb-[2rem] justify-end">
                 <IoCloseSharp size={23} className="text-white" />
             </Link>
@@ -89,7 +196,11 @@ export default function CreateMeme() {
                     </h2>
 
                     {/* form */}
-                    <form className="flex flex-col gap-[0.8rem]" action="">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-[0.8rem]"
+                        action=""
+                    >
                         {/* name */}
                         <div className="flex flex-col">
                             <p className="text-[14px] font-light xl:text-[14.5px]">
@@ -98,8 +209,19 @@ export default function CreateMeme() {
                             <input
                                 type="text"
                                 name="name"
-                                className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                                value={name}
+                                onChange={handleInputChange(setName, 'name')}
+                                className={`py-[7px]  w-full border-[1px] rounded-[8px] outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] ${
+                                    errors.name
+                                        ? 'border-red-500'
+                                        : 'border-appPurple'
+                                }`}
                             />
+                            {errors.name && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.name}
+                                </p>
+                            )}
                         </div>
                         {/* ticker */}
                         <div className="flex flex-col">
@@ -109,8 +231,22 @@ export default function CreateMeme() {
                             <input
                                 type="text"
                                 name="ticker"
-                                className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                                value={ticker}
+                                onChange={handleInputChange(
+                                    setTicker,
+                                    'ticker'
+                                )}
+                                className={`py-[7px]  w-full border-[1px] rounded-[8px] outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] ${
+                                    errors.ticker
+                                        ? 'border-red-500'
+                                        : 'border-appPurple'
+                                }`}
                             />
+                            {errors.ticker && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.ticker}
+                                </p>
+                            )}
                         </div>
                         {/* bio */}
                         <div className="flex flex-col">
@@ -119,9 +255,23 @@ export default function CreateMeme() {
                             </p>
                             <input
                                 type="text"
-                                name="bio"
-                                className="py-[7px]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px]"
+                                name="description"
+                                value={description}
+                                onChange={handleInputChange(
+                                    setDescription,
+                                    'description'
+                                )}
+                                className={`py-[7px]  w-full border-[1px] rounded-[8px] outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] ${
+                                    errors.description
+                                        ? 'border-red-500'
+                                        : 'border-appPurple'
+                                }`}
                             />
+                            {errors.description && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.description}
+                                </p>
+                            )}
                         </div>
                         {/* Image upload */}
                         <div className="flex flex-col">
@@ -213,8 +363,19 @@ export default function CreateMeme() {
                                 150XP
                             </p>
                         </div>
+
                         {/* submit button */}
-                        <CustomButton>Create Your Meme</CustomButton>
+                        <button
+                            type="submit"
+                            disabled={!isFormValid}
+                            className={` text-[#222] min-w-[100px] rounded-[14px] font-medium py-[10px] px-[25px] transition-colors ease-in-out duration-300 ${
+                                !isFormValid
+                                    ? 'bg-appPurpleHover cursor-not-allowed'
+                                    : 'bg-appPurple hover:bg-appPurpleHover'
+                            }`}
+                        >
+                            Create Your Meme
+                        </button>
                     </form>
                 </div>
             </div>

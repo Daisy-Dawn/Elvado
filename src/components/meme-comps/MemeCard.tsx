@@ -6,9 +6,10 @@ interface MemeCardTypes {
     name: string
     createdBy: string
     marketCap: string
-    delegated: string
+    delegated: number
     remark: string
 }
+
 const MemeCard = ({
     image,
     name,
@@ -49,7 +50,7 @@ const MemeCard = ({
                         Delegated%:
                     </p>
                     <p className="text-appPurple font-semibold text-[14.5px] xl:text-[18px]">
-                        {delegated}
+                        {delegated}%
                     </p>
                 </div>
                 <p className="text-appPurple font-[200] italic text-[12px] xl:text-[13px]">

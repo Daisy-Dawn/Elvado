@@ -3,6 +3,7 @@ import TradingviewScreen from '@/components/trade-comps/TradingviewScreen'
 import Orderbook from '@/components/trade-comps/Orderbook'
 import TradeSidebar from '@/components/trade-comps/TradeSidebar'
 import TradeOrderHistory from '@/components/trade-comps/TradeOrderHistory'
+import RecentTrades from '@/components/trade-comps/order-book/RecentTrades'
 
 export default function Home() {
     return (
@@ -13,8 +14,9 @@ export default function Home() {
                 <div className="trading-view-screen rounded-[8px]">
                     <TradingviewScreen />
                 </div>
-                <div className="order-book rounded-[8px]">
+                <div className="order-book flex flex-col gap-1 ">
                     <Orderbook />
+                    <RecentTrades />
                 </div>
                 <div className="trade-sidebar rounded-[8px] overflow-hidden">
                     <TradeSidebar />

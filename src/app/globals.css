@@ -157,7 +157,7 @@ body {
 
 .order-book {
     grid-area: orderbook;
-    background: var(--background);
+    background: #2c2d31;
 }
 
 .trade-sidebar {

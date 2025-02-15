@@ -1,57 +1,51 @@
+'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useApi } from '../context/ApiContext'
+import { CircularProgress } from '@mui/material'
 
 const MinHeader = () => {
-    const tradingList = [
-        {
-            name: 'Index Price',
-            amount: '1,811.30',
-            color: 'white',
-            prefix: '$',
-        },
-        {
-            name: 'Oracle Price',
-            amount: '1,811.30',
-            color: 'white',
-            prefix: '$',
-        },
-        {
-            name: '24h Change',
-            amount: '23.4 (2.1)%',
-            color: '#40E080',
-            prefix: '$',
-        },
-        {
-            name: 'open interest',
-            amount: '920,543,875',
-            color: 'white',
-            prefix: '$',
-        },
-        {
-            name: 'Funding/Countdown',
-            amount: '0.001%/ 39:24',
-            color: 'white',
-        },
-        {
-            name: '24h Volume',
-            amount: '5,123,987,654',
-            color: 'white',
-            prefix: '$',
-        },
-        {
-            name: '24h Trades',
-            amount: '900,000',
-            color: 'white',
-        },
-        {
-            name: '24H high/24H low',
-            amount: '1,811.30',
-            subAmount: '1,543.40',
-            color: '#40E080',
-            subColor: '#FF6B6B',
-            prefix: '$',
-        },
-    ]
+    const {
+        fundingCountdown,
+        fetchFundingCountdown,
+        btcEntryPrice,
+        getMarketInfo,
+        loadingStates,
+    } = useApi()
+    const [timeLeft, setTimeLeft] = useState<number | null>(null)
+
+    useEffect(() => {
+        if (fundingCountdown !== null) {
+            setTimeLeft(fundingCountdown)
+        }
+    }, [fundingCountdown])
+
+    useEffect(() => {
+        if (timeLeft === null) return
+
+        const interval = setInterval(() => {
+            setTimeLeft((prevTime) => {
+                if (prevTime !== null && prevTime > 0) {
+                    return prevTime - 1000 // Reduce by 1 second
+                } else {
+                    clearInterval(interval)
+                    fetchFundingCountdown() // Fetch new countdown when it hits 0
+                    return 0
+                }
+            })
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [timeLeft])
+
+    // Convert milliseconds to mm:ss format
+    const formatTime = (ms: number | null) => {
+        if (ms === null) return 'Loading...'
+        const minutes = Math.floor(ms / 60000)
+        const seconds = Math.floor((ms % 60000) / 1000)
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+    }
+
     return (
         <div className="w-full flex items-center border-y-[4px] border-y-[#2C2D31] min-h-[40px]">
             <div className="flex lg:px-[0.5rem] xl:px-[1.2rem] py-[0.5rem] w-full gap-[1.3rem] 2xl:gap-[2rem] items-center">
@@ -86,42 +80,228 @@ const MinHeader = () => {
 
                     {/* balance */}
                     <p className="text-appPurple font-semibold text-[15px] xl:text-[18px]">
-                        $90,672.00
+                        {loadingStates.btcEntryPrice ? (
+                            <CircularProgress size={17} />
+                        ) : btcEntryPrice ? (
+                            `$${btcEntryPrice
+                                .toFixed(2)
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                        ) : (
+                            '0.00'
+                        )}
                     </p>
                 </div>
 
                 {/* trade chart */}
                 <div className="flex items-center w-[82%]">
-                    {tradingList.map((list, index) => (
-                        <div
-                            key={index}
-                            className="2xl:px-4 xl:px-3  lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]"
-                        >
-                            <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
-                                {' '}
-                                {list.name}{' '}
-                            </p>
-                            <div
-                                style={{ color: list.color }}
-                                className={`${
-                                    list.subAmount
-                                        ? 'flex justify-start'
-                                        : 'block'
-                                } lg:text-[11px] xl:text-[13px]`}
-                            >
-                                <p>
-                                    {' '}
-                                    {list.prefix && <span>$</span>}
-                                    {list.amount}{' '}
-                                </p>
-                                {list.subAmount && (
-                                    <p style={{ color: list.subColor }}>
-                                        /${list.subAmount}{' '}
-                                    </p>
+                    {/* Index Price */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            Index Price
+                        </p>
+                        <div className="block lg:text-[11px] xl:text-[13px]">
+                            <p>
+                                {loadingStates.btcEntryPrice ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : btcEntryPrice ? (
+                                    `$${btcEntryPrice
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
                                 )}
-                            </div>
+                            </p>
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Oracle Price */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            Oracle Price
+                        </p>
+                        <div className="block lg:text-[11px] xl:text-[13px]">
+                            <p>
+                                {loadingStates.btcEntryPrice ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : btcEntryPrice ? (
+                                    `$${btcEntryPrice
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* 24h Change */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            24h Change
+                        </p>
+                        <div
+                            style={{ color: '#40E080' }}
+                            className="block lg:text-[11px] xl:text-[13px]"
+                        >
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `$${getMarketInfo.change24h}%`
+                                ) : (
+                                    '0%'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Open Interest */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            Open Interest
+                        </p>
+                        <div
+                            style={{ color: 'white' }}
+                            className="block lg:text-[11px] xl:text-[13px]"
+                        >
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `$${getMarketInfo?.openInterest
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Funding/Countdown */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            Funding/Countdown
+                        </p>
+                        <div
+                            style={{ color: 'white' }}
+                            className="block lg:text-[11px] xl:text-[13px]"
+                        >
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    formatTime(timeLeft)
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* 24h Volume */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            24h Volume
+                        </p>
+                        <div
+                            style={{ color: 'white' }}
+                            className="block lg:text-[11px] xl:text-[13px]"
+                        >
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `$${getMarketInfo?.volume24h
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* 24h Trades */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center border-r-[1px] border-r-[#374151]">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            24h Trades
+                        </p>
+                        <div
+                            style={{ color: 'white' }}
+                            className="block lg:text-[11px] xl:text-[13px]"
+                        >
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `${getMarketInfo?.trades24h
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* 24H High/24H Low */}
+                    <div className="2xl:px-4 xl:px-3 lg:px-2 flex flex-col gap-0 justify-center ">
+                        <p className="text-appLightGrey text-[10px] xl:text-[12px] capitalize">
+                            24H High/24H Low
+                        </p>
+                        <div className="flex text-[#40E080] justify-start lg:text-[11px] xl:text-[13px]">
+                            <p>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `$${getMarketInfo?.highLow24h[0]
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                            <p style={{ color: '#FF6B6B' }}>
+                                {loadingStates.marketInfo ? (
+                                    <CircularProgress
+                                        color="secondary"
+                                        size={17}
+                                    />
+                                ) : getMarketInfo ? (
+                                    `/$${getMarketInfo?.highLow24h[1]
+                                        .toFixed(2)
+                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                                ) : (
+                                    '0.00'
+                                )}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

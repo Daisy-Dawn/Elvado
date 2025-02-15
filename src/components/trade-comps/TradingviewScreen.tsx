@@ -1,5 +1,15 @@
+'use client'
 import Image from 'next/image'
 import React from 'react'
+import dynamic from 'next/dynamic'
+// import TradingViewChart from './tradingviewchart/TradingviewChart'
+
+const TradingViewChart = dynamic(
+    () => import('./tradingviewchart/TradingviewChart'),
+    {
+        ssr: false,
+    }
+)
 
 const TradingviewScreen = () => {
     const viewList = [
@@ -17,6 +27,7 @@ const TradingviewScreen = () => {
         { icon: '/images/icons/camera2.svg' },
         { icon: '/images/icons/plus.svg' },
     ]
+
     return (
         <div className="min-h-[50vh]">
             <div className="border-b-[1px] text-[12px] py-[1rem] px-[1rem] border-[#374151] flex justify-between items-center ">
@@ -54,6 +65,10 @@ const TradingviewScreen = () => {
                         />
                     </div>
                 </div>
+            </div>
+
+            <div className="w-full h-[480px]">
+                <TradingViewChart />
             </div>
         </div>
     )

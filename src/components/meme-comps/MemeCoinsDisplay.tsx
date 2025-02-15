@@ -1,15 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, ButtonProps } from '@mui/material'
 import { styled } from '@mui/system'
 import MemeCard from './MemeCard'
 import Link from 'next/link'
+import axios from 'axios'
+import { useAppContext } from '../context/AppContext'
 
 interface CustomButtonProps extends ButtonProps {
     isActive?: boolean
 }
 
-// Extract `isActive` inside the styled function to prevent passing it to DOM
 const CustomButton = styled(Button, {
     shouldForwardProp: (prop) => prop !== 'isActive',
 })<CustomButtonProps>(({ isActive }) => ({
@@ -30,37 +31,38 @@ const CustomButton = styled(Button, {
 
 const MemeCoinsDisplay = () => {
     const [activeButton, setActiveButton] = useState<string>('Trending')
+    const { searchTerm, memeCoinList, setMemeCoinList } = useAppContext()
 
-    const memeCoinList = [
-        {
-            image: '/images/meme/pweedy-cat.png',
-            name: 'pweedy cat',
-            createdBy: 'czed',
-            marketCap: '$60k',
-            delegated: '60%',
-            remark: 'This is the best meme token created by man',
-        },
-        {
-            image: '/images/meme/czedwars.png',
-            name: 'czedwars',
-            createdBy: 'czed',
-            marketCap: '$60k',
-            delegated: '60%',
-            remark: 'This is the best meme token created by man',
-        },
-        {
-            image: '/images/meme/rug-me.png',
-            name: 'rug me',
-            createdBy: 'czed',
-            marketCap: '$60k',
-            delegated: '60%',
-            remark: 'This is the best meme token created by man',
-        },
-    ]
+    useEffect(() => {
+        const fetchMemes = async () => {
+            try {
+                const endpoint =
+                    activeButton === 'New'
+                        ? process.env.NEXT_PUBLIC_GET_TOKENS
+                        : process.env.NEXT_PUBLIC_FETCH_MEMES
+
+                const response = await axios.get(endpoint!)
+                if (response.data.status === 200) {
+                    setMemeCoinList(response.data.data.tokens)
+                }
+            } catch (error) {
+                console.error('Error fetching memes:', error)
+            }
+        }
+
+        fetchMemes()
+    }, [activeButton]) // Re-run fetch when activeButton changes
+
+    // Filter the memeCoinList based on searchTerm
+    const filteredMemes = searchTerm
+        ? memeCoinList.filter((meme) =>
+              meme.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        : memeCoinList
 
     return (
         <div className="flex flex-col px-0 xl:px-[1rem] 2xl:px-[4rem] lg:mt-[3rem] xl:mt-[2rem] gap-[2.5rem]">
-            {/* top buttons */}
+            {/* Top Buttons */}
             <div className="flex bg-[#222222] w-fit rounded-[8px] gap-[1px] items-center">
                 <CustomButton
                     isActive={activeButton === 'Trending'}
@@ -76,20 +78,26 @@ const MemeCoinsDisplay = () => {
                 </CustomButton>
             </div>
 
-            {/* meme coins card */}
+            {/* Meme Coins Display */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {memeCoinList.map((meme, index) => (
-                    <Link key={index} href={`/meme/${index}`}>
-                        <MemeCard
-                            image={meme.image}
-                            name={meme.name}
-                            createdBy={meme.createdBy}
-                            marketCap={meme.marketCap}
-                            remark={meme.remark}
-                            delegated={meme.delegated}
-                        />
-                    </Link>
-                ))}
+                {filteredMemes.length > 0 ? (
+                    filteredMemes.map((meme) => (
+                        <Link key={meme.tokenId} href={`/meme/${meme.tokenId}`}>
+                            <MemeCard
+                                image="/images/meme/pweedy-cat.png"
+                                name={meme.name}
+                                createdBy={meme.creator}
+                                marketCap="$60k"
+                                remark={meme.description}
+                                delegated={meme.delegatedSupply}
+                            />
+                        </Link>
+                    ))
+                ) : (
+                    <p className="flex col-span-3 w-full justify-center">
+                        No results found...
+                    </p>
+                )}
             </div>
         </div>
     )
