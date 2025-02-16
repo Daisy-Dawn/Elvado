@@ -92,11 +92,17 @@ const CloseAllButton = styled(Button)({
 const TradeOrderHistory = () => {
     const [tabValue, setTabValue] = useState(0)
     const [hideAssets, setHideAssets] = useState<boolean>(false)
+    const [showPositions, setShowPositions] = useState<boolean>(true)
 
     const handleCheckboxChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         setHideAssets(event.target.checked)
+    }
+    const handleCheckboxChangePositions = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setShowPositions(event.target.checked)
     }
 
     return (
@@ -126,7 +132,13 @@ const TradeOrderHistory = () => {
 
                 {tabValue === 0 && (
                     <FormControlLabel
-                        control={<CustomCheckbox size="small" />}
+                        control={
+                            <CustomCheckbox
+                                checked={showPositions}
+                                onChange={handleCheckboxChangePositions}
+                                size="small"
+                            />
+                        }
                         label="Show All Positions"
                         sx={{
                             '& .MuiTypography-root': {
@@ -160,7 +172,7 @@ const TradeOrderHistory = () => {
             </div>
 
             {/* display tabs */}
-            {tabValue === 0 && <PositionsTable />}
+            {tabValue === 0 && <PositionsTable showPositions={showPositions} />}
             {tabValue === 1 && <OpenOrdersTables />}
             {tabValue === 2 && <OrderHistoryTable />}
             {tabValue === 3 && <PaymentsTable />}

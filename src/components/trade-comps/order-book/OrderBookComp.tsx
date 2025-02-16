@@ -43,7 +43,7 @@ export default function OrderBookComp() {
                             </p>
                             {/* price */}
                             <p className="text-[#FF6B6B] bg-inherit px-[0.4rem]">
-                                {parseFloat(short.price)
+                                {short.price
                                     .toFixed(2)
                                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </p>
@@ -64,9 +64,9 @@ export default function OrderBookComp() {
                 />
                 <p className="text-[#32CD89]  font-semibold">
                     {' '}
-                    {parseFloat(marketData?.marketPrice)
+                    {marketData?.marketPrice
                         .toFixed(2)
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
             </div>
 
@@ -94,7 +94,7 @@ export default function OrderBookComp() {
                         <p className="bg-inherit px-[0.7rem]">{long.size}</p>
                         {/* price */}
                         <p className="text-[#32CD89] bg-inherit px-[0.4rem]">
-                            {parseFloat(long.price)
+                            {long.price
                                 .toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </p>

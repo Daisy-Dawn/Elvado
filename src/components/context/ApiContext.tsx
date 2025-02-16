@@ -22,6 +22,37 @@ interface Trade {
     time: string
 }
 
+type MarketPosition = {
+    _id: string
+    orderId: string
+    positionType: 'long' | 'short'
+    type: string
+    opener: string
+    market: string
+    margin: number
+    leverage: number
+    leverageType: string
+    size: number
+    sizeLeft: number
+    price: number
+    tp: number
+    sl: number
+    pickedUp: boolean
+    filled: boolean
+    fillingOrders: unknown[] // Adjust type if needed
+    isClosingPositionOrder: boolean
+    positionIdClosing: string | null
+    deleted: boolean
+    time: string // Consider using Date type if you parse it
+    __v: number
+}
+
+type MarketData = {
+    longs: MarketPosition[]
+    shorts: MarketPosition[]
+    marketPrice: number
+}
+
 interface ApiContextType {
     fundingCountdown: number | null
     btcEntryPrice: number | null
@@ -39,7 +70,7 @@ interface ApiContextType {
         marketInfo: boolean
         latestTrades: boolean
     }
-    marketData: any
+    marketData: MarketData | null
     fetchFundingCountdown: () => void
     fetchBtcEntryPrice: () => void
     fetchMarketInfo: () => void
@@ -56,7 +87,7 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
     const [getMarketInfo, setGetMarketInfo] =
         useState<ApiContextType['getMarketInfo']>(null)
     const [latestTrades, setLatestTrades] = useState<Trade[] | null>(null)
-    const [marketData, setMarketData] = useState<any>(null)
+    const [marketData, setMarketData] = useState<MarketData | null>(null)
     const [loadingStates, setLoadingStates] = useState({
         fundingCountdown: false,
         btcEntryPrice: false,
@@ -151,9 +182,13 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         socket.onmessage = (event) => {
-            const liveData = JSON.parse(event.data)
-            console.log('Live Market Data:', liveData)
-            setMarketData(liveData)
+            try {
+                const liveData: MarketData = JSON.parse(event.data)
+                console.log('Live Market Data:', liveData)
+                setMarketData(liveData)
+            } catch (error) {
+                console.error('Error parsing WebSocket data:', error)
+            }
         }
 
         socket.onerror = (error) => {

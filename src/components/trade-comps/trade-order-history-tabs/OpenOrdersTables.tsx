@@ -1,5 +1,8 @@
-import React from 'react'
+'use client'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import {
+    CircularProgress,
     Table,
     TableBody,
     TableCell,
@@ -8,31 +11,89 @@ import {
     TableRow,
 } from '@mui/material'
 
+interface OpenOrder {
+    _id: string
+    orderId: string
+    positionType: string
+    type: string
+    opener: string
+    market: string
+    margin: number
+    leverage: number
+    leverageType: string
+    size: number | null
+    sizeLeft: number | null
+    price: number
+    tp: number
+    sl: number
+    pickedUp: boolean
+    filled: boolean
+    fillingOrders: unknown[]
+    isClosingPositionOrder: boolean
+    positionIdClosing: string | null
+    deleted: boolean
+    time: string
+}
+
+interface ApiResponse<T> {
+    status: number
+    msg: string
+    data: T
+}
+
+const fetchUserOpenOrders = async (address: string): Promise<OpenOrder[]> => {
+    try {
+        const response = await axios.get<ApiResponse<OpenOrder[]>>(
+            `${process.env.NEXT_PUBLIC_GET_USERS_OPEN_ORDERS}/${address}`
+        )
+
+        if (response.data.status === 200) {
+            return response.data.data
+        } else {
+            console.error('Failed to fetch open orders:', response.data.msg)
+            return []
+        }
+    } catch (error) {
+        console.error('Error fetching open orders:', error)
+        return []
+    }
+}
+
 const OpenOrdersTables = () => {
-    const openOrders = [
-        {
-            contracts: 'BTC',
-            filledTotal: '-',
-            orderPrice: '200,057.25',
-            triggerPrice: '200,057.25',
-            tradeType: 'Buy',
-            orderType: 'Stop Limit',
-            status: 'Expired',
-            orderNo: '-',
-            orderTime: '2022-06-20 20:40:30',
-        },
-        {
-            contracts: 'BTC',
-            filledTotal: '-',
-            orderPrice: '200,057.25',
-            triggerPrice: '200,057.25',
-            tradeType: 'Buy',
-            orderType: 'Stop Limit',
-            status: 'Expired',
-            orderNo: '-',
-            orderTime: '2022-06-20 20:40:30',
-        },
-    ]
+    const [openOrders, setOpenOrders] = useState<OpenOrder[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
+
+    const address = '0x65f6Dd5E5f4745B61E0f4b68d3dD5BD0B960F5b1'
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            setError(null)
+            const orders = await fetchUserOpenOrders(address)
+            if (orders.length === 0) {
+                setError('No open orders found.')
+            }
+            setOpenOrders(orders)
+            setLoading(false)
+        }
+
+        fetchData()
+    }, [])
+
+    const formatTime = (isoString: string): string => {
+        const date = new Date(isoString)
+        return date.toLocaleTimeString('en-GB', { hour12: false })
+    }
+
+    if (loading)
+        return (
+            <div className="min-h-[40vh] flex justify-center items-center">
+                <CircularProgress color="secondary" size={25} />
+            </div>
+        )
+    if (error) return <div>{error}</div>
+
     return (
         <TableContainer sx={{ mb: '2rem' }}>
             <Table
@@ -83,14 +144,14 @@ const OpenOrdersTables = () => {
                 {/* Table body */}
                 <TableBody>
                     {openOrders.length > 0 ? (
-                        openOrders.map((order, index) => (
-                            <TableRow key={index}>
+                        openOrders.map((order) => (
+                            <TableRow key={order._id}>
                                 {/* contracts */}
                                 <TableCell>
                                     <div className="ml-[20px]">
                                         <div className="flex items-center gap-1">
-                                            <span className="font-semibold text-foreground">
-                                                {order.contracts}
+                                            <span className="font-semibold uppercase text-foreground">
+                                                {order.market}
                                             </span>
                                         </div>
                                         <div
@@ -105,15 +166,15 @@ const OpenOrdersTables = () => {
                                 </TableCell>
                                 {/* filled/total */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.filledTotal}
+                                    {order.filled === false ? 'false' : 'true'}
                                 </TableCell>
                                 {/* order price */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.orderPrice}
+                                    {order.price.toFixed(2)}
                                 </TableCell>
                                 {/* trigger price */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.triggerPrice}
+                                    {order.price.toFixed(2)}
                                 </TableCell>
                                 {/* trade type */}
                                 <TableCell
@@ -123,29 +184,31 @@ const OpenOrdersTables = () => {
                                 >
                                     <p
                                         className={` ${
-                                            order.tradeType === 'Buy'
+                                            order.type === 'Buy'
                                                 ? 'text-appGreen'
                                                 : 'text-appDarkRed'
                                         }`}
                                     >
-                                        {order.tradeType}
+                                        {order.type}
                                     </p>
                                 </TableCell>
                                 {/* order type  */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.orderType}
+                                    {order.leverageType}
                                 </TableCell>
                                 {/* status */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.status}
+                                    {order.pickedUp === false
+                                        ? 'false'
+                                        : 'true'}
                                 </TableCell>
                                 {/* order no. */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.orderNo}
+                                    {order.orderId}
                                 </TableCell>
                                 {/* order time */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.orderTime}
+                                    {formatTime(order.time)}
                                 </TableCell>
                             </TableRow>
                         ))
