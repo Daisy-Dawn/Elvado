@@ -180,6 +180,6 @@ body {
 }
 .waitlist {
     background: url('/images/waitlist-bg.png') no-repeat;
-    background-size: cover; /* Ensure it covers the element */
-    background-position: center; /* Center the image */
+    background-size: cover;
+    background-position: center;
 }
