@@ -7,8 +7,11 @@ export default function Waitlist() {
     return (
         <div className="waitlist justify-center w-full h-screen">
             <HideHeader />
-            <div className="w-full flex flex-col items-center">
-                <p className="w-[40%] text-appPurple leading-tight pt-[5rem] pb-[2rem] text-center font-bold text-[50px] ">
+            <div className="w-full flex mt-[10rem] 2xl:mt-[7rem] flex-col items-center">
+                <p className="text-[16px] w-[40%] text-center font-light">
+                    Waitlist
+                </p>
+                <p className="w-[40%] text-appPurple leading-tight  pb-[2rem] text-center font-bold text-[50px] ">
                     Join the growing movement
                 </p>
 

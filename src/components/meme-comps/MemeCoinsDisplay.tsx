@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Button, ButtonProps } from '@mui/material'
+import { Button, ButtonProps, CircularProgress } from '@mui/material'
 import { styled } from '@mui/system'
 import MemeCard from './MemeCard'
 import Link from 'next/link'
@@ -101,9 +101,9 @@ const MemeCoinsDisplay = () => {
                         </Link>
                     ))
                 ) : (
-                    <p className="flex col-span-3 w-full justify-center">
-                        No results found...
-                    </p>
+                    <div className="flex min-h-[10vh] col-span-3 items-center justify-center">
+                        <CircularProgress color="secondary" size={25} />
+                    </div>
                 )}
             </div>
         </div>

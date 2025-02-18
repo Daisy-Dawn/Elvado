@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Button, styled } from '@mui/material'
+import { Button, CircularProgress, styled } from '@mui/material'
 import { RiArrowRightSLine } from 'react-icons/ri'
 import { BiSearchAlt } from 'react-icons/bi'
 import Link from 'next/link'
@@ -112,7 +112,9 @@ const MemeHero = () => {
                         </div>
                     </Link>
                 ) : (
-                    <p>Loading....</p>
+                    <div className="flex justify-center">
+                        <CircularProgress color="secondary" size={25} />
+                    </div>
                 )}
 
                 <div className="w-[70%] bg-[#2C2D31] overflow-hidden rounded-none md:rounded-[8px] flex items-center">

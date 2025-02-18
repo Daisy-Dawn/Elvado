@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
 import { Button, styled } from '@mui/material'
@@ -25,6 +25,11 @@ export default function ConnectWallet() {
     const router = useRouter()
     const { connectors, connect } = useConnect()
     const { isConnected } = useAccount() // To track connection status
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const filteredConnectors = connectors.filter((connector) =>
+        connector.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
 
     // router.push('/connect-wallet/signin-message') // Navigate to the respective route
 
@@ -82,6 +87,8 @@ export default function ConnectWallet() {
                     {/* search input */}
                     <div className=" w-full rounded-[20px] bg-[#2C2D31] flex items-center">
                         <input
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search and connect your wallet"
                             className=" py-[7px] w-[93%] placeholder:text-[13px] placeholder:font-extralight outline-none bg-transparent placeholder:text-appGrey2 px-[15px] "
                         />
@@ -93,7 +100,7 @@ export default function ConnectWallet() {
 
                     {/* wallets */}
                     <div className="flex flex-wrap mt-[1rem] gap-4">
-                        {connectors.map((connector) => (
+                        {filteredConnectors.map((connector) => (
                             <button
                                 key={connector.uid}
                                 className="border-[2px] rounded-[8px] py-[0.5rem] px-[0.7rem] flex gap-2 items-center transition-all border-[#4B5563] hover:border-appPurple"

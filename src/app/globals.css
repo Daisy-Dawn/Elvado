@@ -179,7 +179,7 @@ body {
     width: 350px;
 }
 .waitlist {
-    background: url('/images/waitlist-bg.png') no-repeat;
+    background: url('/waitlist.png') no-repeat;
     background-size: cover;
     background-position: center;
 }
