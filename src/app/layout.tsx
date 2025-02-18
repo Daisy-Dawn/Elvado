@@ -6,6 +6,7 @@ import './globals.css'
 import { AuthProvider } from '@/components/context/AuthContext'
 import { AppProvider } from '@/components/context/AppContext'
 import { ApiProvider } from '@/components/context/ApiContext'
+import WagmiClientProvider from '@/utils/WagmiClientProvider'
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -36,14 +37,16 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} font-inter antialiased`}
             >
-                <AuthProvider>
-                    <AppProvider>
-                        <ApiProvider>
-                            <Header />
-                            {children}
-                        </ApiProvider>
-                    </AppProvider>
-                </AuthProvider>
+                <WagmiClientProvider>
+                    <AuthProvider>
+                        <AppProvider>
+                            <ApiProvider>
+                                <Header />
+                                {children}
+                            </ApiProvider>
+                        </AppProvider>
+                    </AuthProvider>
+                </WagmiClientProvider>
             </body>
         </html>
     )

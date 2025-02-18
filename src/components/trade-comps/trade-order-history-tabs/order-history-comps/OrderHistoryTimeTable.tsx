@@ -1,5 +1,7 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
+    CircularProgress,
     Table,
     TableBody,
     TableCell,
@@ -7,38 +9,88 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material'
+import axios from 'axios'
+import { useAccount } from 'wagmi'
 
-const OrderHistoryTimeTable = () => {
-    const orderHistoryTable = [
-        {
-            time: '2022-06-20 20:40:30',
-            symbol: 'BTC',
-            type: 'Stop Limit',
-            side: 'Sell',
-            average: '19, 994.49',
-            price: '19, 994.49',
-            executed: '19, 994.49 USDC',
-            amount: '19, 994.49 USDC',
-            reduceOnly: 'Yes',
-            postOnly: 'Yes',
-            triggerConditions: '',
-            status: 'Filled',
-        },
-        {
-            time: '2022-06-20 20:40:30',
-            symbol: 'BTC',
-            type: 'Stop Limit',
-            side: 'Buy',
-            average: '19, 994.49',
-            price: '19, 994.49',
-            executed: '19, 994.49 USDC',
-            amount: '19, 994.49 USDC',
-            reduceOnly: 'No',
-            postOnly: 'No',
-            triggerConditions: '',
-            status: 'Expired',
-        },
-    ]
+interface OrderHistoryTimeTableProps {
+    value: 'day' | 'week' | 'month'
+}
+interface Order {
+    _id: string
+    orderId: string
+    positionType: 'long' | 'short'
+    type: 'limit' | 'market'
+    opener: string
+    market: string
+    margin: number
+    leverage: number
+    leverageType: string
+    size: number | null
+    sizeLeft: number | null
+    price: number
+    tp: number
+    sl: number
+    pickedUp: boolean
+    filled: boolean
+    fillingOrders: unknown[]
+    isClosingPositionOrder: boolean
+    positionIdClosing: string
+    deleted: boolean
+    time: string // ISO string
+    __v: number
+}
+
+export interface OrdersResponse {
+    status: number
+    msg: string
+    data: Order[]
+}
+
+const OrderHistoryTimeTable: React.FC<OrderHistoryTimeTableProps> = ({
+    value,
+}) => {
+    const { address } = useAccount()
+    const API_URL = process.env.NEXT_PUBLIC_GET_USERS_ORDERS_RANGE
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get<OrdersResponse>(
+                `${API_URL}/${address}/${value}`
+            )
+            setOrders(response.data.data)
+        } catch (error) {
+            console.error('Error fetching orders:', error)
+            setError('Failed to fetch orders')
+            return []
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const [orders, setOrders] = useState<Order[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+    const formatTime = (isoString: string): string => {
+        const date = new Date(isoString)
+        return date.toLocaleTimeString('en-GB', { hour12: false })
+    }
+
+    useEffect(() => {
+        fetchOrders()
+    }, [value])
+
+    if (loading)
+        return (
+            <div className="min-h-[40vh] w-full flex justify-center items-center">
+                <CircularProgress color="secondary" size={25} />
+            </div>
+        )
+    if (error)
+        return (
+            <div className="min-h-[40vh] flex justify-center items-center">
+                <p>{error}</p>
+            </div>
+        )
+
     return (
         <TableContainer sx={{ mb: '2rem' }}>
             <Table
@@ -93,18 +145,20 @@ const OrderHistoryTimeTable = () => {
                 </TableHead>
                 {/* Table body */}
                 <TableBody>
-                    {orderHistoryTable.length > 0 ? (
-                        orderHistoryTable.map((order, index) => (
-                            <TableRow key={index}>
+                    {address && orders.length > 0 ? (
+                        orders.map((order) => (
+                            <TableRow key={order.orderId}>
                                 {/* time */}
                                 <TableCell>
-                                    <p className="ml-[10px]">{order.time}</p>
+                                    <p className="ml-[10px]">
+                                        {formatTime(order.time)}
+                                    </p>
                                 </TableCell>
                                 {/* symbol */}
                                 <TableCell>
                                     <div className="flex items-center gap-1">
-                                        <span className="font-semibold text-foreground">
-                                            {order.symbol}
+                                        <span className="font-semibold uppercase text-foreground">
+                                            {order.market}
                                         </span>
                                     </div>
                                     <div
@@ -124,17 +178,17 @@ const OrderHistoryTimeTable = () => {
                                 <TableCell sx={{ textAlign: 'center' }}>
                                     <p
                                         className={` ${
-                                            order.side === 'Buy'
+                                            order.positionType === 'long'
                                                 ? 'text-appGreen'
                                                 : 'text-appDarkRed'
                                         }`}
                                     >
-                                        {order.side}
+                                        {order.positionType}
                                     </p>
                                 </TableCell>
                                 {/* average */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.average}
+                                    {order.price}
                                 </TableCell>
                                 {/* price */}
                                 <TableCell sx={{ textAlign: 'center' }}>
@@ -142,34 +196,37 @@ const OrderHistoryTimeTable = () => {
                                 </TableCell>
                                 {/* executed */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.executed}
+                                    {order.price}
                                 </TableCell>
                                 {/* amount */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.amount}
+                                    {order.price}
                                 </TableCell>
                                 {/* reduceOnly */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.reduceOnly}
+                                    {order.pickedUp}
                                 </TableCell>
                                 {/* postOnly */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.postOnly}
+                                    {order.filled}
                                 </TableCell>
                                 {/* triggerConditions */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.triggerConditions}
+                                    -
                                 </TableCell>
                                 {/* status */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.status}
+                                    {order.leverageType}
                                 </TableCell>
                             </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={9} sx={{ textAlign: 'center' }}>
-                                <div className="flex min-h-[40vh] justify-center items-center">
+                            <TableCell
+                                colSpan={12}
+                                sx={{ textAlign: 'center' }}
+                            >
+                                <div className="flex min-h-[40vh] w-full justify-center items-center">
                                     <p className="text-appGrey text-[15px] font-medium">
                                         You have no order history
                                     </p>

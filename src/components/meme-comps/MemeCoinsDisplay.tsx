@@ -6,6 +6,7 @@ import MemeCard from './MemeCard'
 import Link from 'next/link'
 import axios from 'axios'
 import { useAppContext } from '../context/AppContext'
+import Jazzicon from 'react-jazzicon'
 
 interface CustomButtonProps extends ButtonProps {
     isActive?: boolean
@@ -46,7 +47,7 @@ const MemeCoinsDisplay = () => {
                     setMemeCoinList(response.data.data.tokens)
                 }
             } catch (error) {
-                console.error('Error fetching memes:', error)
+                console.log('Error fetching memes:', error)
             }
         }
 
@@ -81,10 +82,16 @@ const MemeCoinsDisplay = () => {
             {/* Meme Coins Display */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredMemes.length > 0 ? (
-                    filteredMemes.map((meme) => (
+                    filteredMemes.map((meme, index) => (
                         <Link key={meme.tokenId} href={`/meme/${meme.tokenId}`}>
                             <MemeCard
-                                image="/images/meme/pweedy-cat.png"
+                                image={
+                                    index === 0 ? (
+                                        <Jazzicon diameter={120} seed={0} /> // Always use the same seed for index 0
+                                    ) : (
+                                        <Jazzicon diameter={120} seed={index} /> // Regular behavior for other indexes
+                                    )
+                                }
                                 name={meme.name}
                                 createdBy={meme.creator}
                                 marketCap="$60k"

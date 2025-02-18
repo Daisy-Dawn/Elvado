@@ -105,10 +105,10 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
             if (data.status === 200 && Array.isArray(data.data)) {
                 setLatestTrades(data.data)
             } else {
-                console.error('Failed to fetch latest trades:', data)
+                console.log('Failed to fetch latest trades:', data)
             }
         } catch (error) {
-            console.error('Error fetching latest trades:', error)
+            console.log('Error fetching latest trades:', error)
         } finally {
             setLoadingStates((prev) => ({ ...prev, latestTrades: false }))
         }
@@ -124,10 +124,10 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
             if (data.status === 200) {
                 setFundingCountdown(data.data.timeLeft)
             } else {
-                console.error('Failed to fetch funding countdown:', data.msg)
+                console.log('Failed to fetch funding countdown:', data.msg)
             }
         } catch (error) {
-            console.error('Error fetching funding countdown:', error)
+            console.log('Error fetching funding countdown:', error)
         } finally {
             setLoadingStates((prev) => ({ ...prev, fundingCountdown: false }))
         }
@@ -143,10 +143,10 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
             if (data && data.open) {
                 setBtcEntryPrice(data.open)
             } else {
-                console.error('Failed to fetch BTC entry price:', data)
+                console.log('Failed to fetch BTC entry price:', data)
             }
         } catch (error) {
-            console.error('Error fetching BTC entry price:', error)
+            console.log('Error fetching BTC entry price:', error)
         } finally {
             setLoadingStates((prev) => ({ ...prev, btcEntryPrice: false }))
         }
@@ -162,10 +162,10 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
             if (data.status === 200 && data.data) {
                 setGetMarketInfo(data.data)
             } else {
-                console.error('Failed to fetch market info:', data.msg)
+                console.log('Failed to fetch market info:', data.msg)
             }
         } catch (error) {
-            console.error('Error fetching market info:', error)
+            console.log('Error fetching market info:', error)
         } finally {
             setLoadingStates((prev) => ({ ...prev, marketInfo: false }))
         }
@@ -173,9 +173,15 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
 
     // WebSocket for Live Market Data
     useEffect(() => {
-        const socket = new WebSocket(
-            process.env.NEXT_PUBLIC_GET_MARKET_DATA as string
-        )
+        const socketUrl = process.env.NEXT_PUBLIC_GET_MARKET_DATA as string
+        console.log('WebSocket URL:', socketUrl)
+
+        if (!socketUrl) {
+            console.log('WebSocket URL is undefined. Check your .env file.')
+            return
+        }
+
+        const socket = new WebSocket(socketUrl)
 
         socket.onopen = () => {
             console.log('WebSocket connected for market data')
@@ -187,12 +193,12 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log('Live Market Data:', liveData)
                 setMarketData(liveData)
             } catch (error) {
-                console.error('Error parsing WebSocket data:', error)
+                console.log('Error parsing WebSocket data:', error)
             }
         }
 
-        socket.onerror = (error) => {
-            console.error('WebSocket error:', error)
+        socket.onerror = (event) => {
+            console.log('WebSocket encountered an error:', event)
         }
 
         socket.onclose = () => {

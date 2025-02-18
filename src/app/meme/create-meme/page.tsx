@@ -1,6 +1,5 @@
 'use client'
-import React, { ChangeEvent, DragEvent, useState } from 'react'
-import Image from 'next/image'
+import React, { useState } from 'react'
 import {
     Alert,
     MenuItem,
@@ -37,9 +36,6 @@ const StyledSelect = styled(Select)({
 })
 
 export default function CreateMeme() {
-    const [file, setFile] = useState<File | null>(null)
-    const [preview, setPreview] = useState<string | null>(null)
-    const [dragging, setDragging] = useState<boolean>(false)
     const [baseAmount, setBaseAmount] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [ticker, setTicker] = useState<string>('')
@@ -99,25 +95,6 @@ export default function CreateMeme() {
         setBaseAmount(event.target.value as string)
     }
 
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = event.target.files?.[0]
-        if (selectedFile) {
-            setFile(selectedFile)
-            setPreview(URL.createObjectURL(selectedFile)) // Generate preview URL
-        }
-    }
-
-    const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault()
-        setDragging(false)
-
-        const droppedFile = event.dataTransfer.files?.[0]
-        if (droppedFile) {
-            setFile(droppedFile)
-            setPreview(URL.createObjectURL(droppedFile)) // Generate preview URL
-        }
-    }
-
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
@@ -141,7 +118,7 @@ export default function CreateMeme() {
                     type: 'error',
                     message: 'Failed to create meme token. Please try again.',
                 })
-                console.error('Error creating token:', response.statusText)
+                console.log('Error creating token:', response.statusText)
                 return
             }
 
@@ -160,7 +137,7 @@ export default function CreateMeme() {
                 router.push('/meme')
             }, 2000)
         } catch (error) {
-            console.error('Error:', error)
+            console.log('Error:', error)
             setAlert({
                 open: true,
                 type: 'error',
@@ -172,7 +149,7 @@ export default function CreateMeme() {
     const isFormValid = name.trim() && ticker.trim() && description.trim()
 
     return (
-        <div className="  mb-[3rem] ">
+        <div className="h-screen ">
             {/* Success/Error Alert */}
             <Snackbar
                 open={alert.open}
@@ -186,10 +163,10 @@ export default function CreateMeme() {
                     {alert.message}
                 </Alert>
             </Snackbar>
-            <Link href="/meme" className="flex w-[70%] mb-[2rem] justify-end">
+            <Link href="/" className="flex w-[70%] my-[3rem] justify-end">
                 <IoCloseSharp size={23} className="text-white" />
             </Link>
-            <div className="flex w-full justify-center items-center">
+            <div className="flex w-full h-[70vh] justify-center items-center">
                 <div className="xl:w-[27%] lg:w-[33%] md:w-[50%] w-[50%] flex flex-col gap-[0.7rem]">
                     <h2 className="text-center mb-[0.5rem] font-medium text-[19px] md:text-[20px]">
                         Create your own token
@@ -272,67 +249,6 @@ export default function CreateMeme() {
                                     {errors.description}
                                 </p>
                             )}
-                        </div>
-                        {/* Image upload */}
-                        <div className="flex flex-col">
-                            <p className="text-[14px] font-light xl:text-[14.5px]">
-                                Image
-                            </p>
-                            <div
-                                className={`py-[20px] flex flex-col md:flex-row justify-center items-center gap-[0.5rem]  w-full border-[1px] rounded-[8px] border-appPurple outline-none bg-[#171717] placeholder:text-appGrey2 px-[15px] md:px-[20px] 
-            ${
-                dragging
-                    ? 'border-dashed border-white'
-                    : 'border-solid border-appPurple'
-            }`}
-                                onDragOver={(e) => {
-                                    e.preventDefault()
-                                    setDragging(true)
-                                }}
-                                onDragLeave={() => setDragging(false)}
-                                onDrop={handleDrop}
-                            >
-                                <div className="flex flex-col items-center gap-[0.5rem] ">
-                                    <span className="md:w-[30px] w-[30px] h-[30px] md:h-[30px]">
-                                        <Image
-                                            width={30}
-                                            height={30}
-                                            alt="upload"
-                                            src="/images/meme/upload.svg"
-                                            className="h-full w-full object-contain"
-                                        />
-                                    </span>
-
-                                    <p className="text-appGrey2  font-light text-[13px] text-center">
-                                        {file
-                                            ? `Selected: ${file.name}`
-                                            : 'Drag and drop an image or click to upload'}
-                                    </p>
-
-                                    <label className="cursor-pointer bg-[#2C2D31] text-appPurple text-[13px] py-2 px-6 rounded-md hover:bg-appPurple hover:text-appDarkBlue transition">
-                                        Select a File
-                                        <input
-                                            type="file"
-                                            name="image"
-                                            className="hidden"
-                                            onChange={handleFileChange}
-                                            accept="image/*"
-                                        />
-                                    </label>
-                                </div>
-
-                                {preview && (
-                                    <div className="w-[100px] h-[100px] rounded-md overflow-hidden border border-appPurple">
-                                        <Image
-                                            width={100}
-                                            height={100}
-                                            src={preview}
-                                            alt="Preview"
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                )}
-                            </div>
                         </div>
 
                         {/* base amount */}

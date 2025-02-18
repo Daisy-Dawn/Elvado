@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 
 interface MemeCardTypes {
-    image: string
+    image: React.ReactNode
     name: string
     createdBy: string
     marketCap: string
@@ -21,13 +21,17 @@ const MemeCard = ({
     return (
         <div className="w-full md:border-[#816A6A] border-opacity-40 rounded-none md:rounded-[11px] flex gap-[1rem] xl:gap-[1.5rem] shadow-sm inset-shadow-xs md:shadow-[#B5A8F7] py-2 md:py-[0.7rem] xl:py-[1.2rem] 2xl:py-[1.5rem] px-[1rem]  2xl:px-[2rem] md:border-[1px]">
             <div className="bg-[#2C2D31] w-[47%] 2xl:w-[45%] overflow-hidden  md:h-full flex justify-center rounded-[17px]">
-                <Image
-                    width={200}
-                    height={200}
-                    className="h-full w-full md:object-cover"
-                    src={image}
-                    alt={name}
-                />
+                {typeof image === 'string' ? (
+                    <Image
+                        width={200}
+                        height={200}
+                        className="h-full w-full md:object-cover"
+                        src={image}
+                        alt={name}
+                    />
+                ) : (
+                    image // If it's not a string, render it as a React element
+                )}
             </div>
 
             <div className="flex leading-tight flex-col w-[53%] 2xl:w-[55%] text-[#F5F5F5] gap-[3px] 2xl:gap-1">

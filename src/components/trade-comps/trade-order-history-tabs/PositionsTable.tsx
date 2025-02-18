@@ -14,6 +14,7 @@ import { IoChatboxOutline } from 'react-icons/io5'
 import { FaCirclePlus } from 'react-icons/fa6'
 import axios from 'axios'
 import { useApi } from '@/components/context/ApiContext'
+import { useAccount } from 'wagmi'
 
 interface UserPosition {
     _id: string
@@ -64,8 +65,7 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ showPositions }) => {
     const [error, setError] = useState<string | null>(null)
     const { marketData } = useApi()
 
-    // User address
-    const address = '0x65f6Dd5E5f4745B61E0f4b68d3dD5BD0B960F5b1'
+    const { address } = useAccount()
 
     // Fetch user positions
     const fetchUserPositions = async () => {
@@ -80,14 +80,14 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ showPositions }) => {
             if (response.data.status === 200) {
                 setUserPositions(response.data.data)
             } else {
-                console.error(
+                console.log(
                     'Failed to fetch user positions:',
                     response.data.msg
                 )
                 setError('Failed to fetch user positions')
             }
         } catch (error) {
-            console.error('Error fetching user positions:', error)
+            console.log('Error fetching user positions:', error)
             setError('Error fetching user positions')
         } finally {
             setLoading(false)
@@ -172,7 +172,7 @@ const PositionsTable: React.FC<PositionsTableProps> = ({ showPositions }) => {
                 </TableHead>
                 {/* Table body */}
                 <TableBody>
-                    {showPositions && userPositions.length > 0 ? (
+                    {address && showPositions && userPositions.length > 0 ? (
                         userPositions.map((position, index) => {
                             const marketPrice = marketData?.marketPrice ?? 0
                             const pnl = calculatePnl(

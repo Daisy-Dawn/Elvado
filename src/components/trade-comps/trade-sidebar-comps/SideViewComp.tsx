@@ -1,6 +1,12 @@
 'use client'
 import { useState } from 'react'
-import { Slider, Checkbox, FormControlLabel, styled } from '@mui/material'
+import {
+    Slider,
+    Checkbox,
+    FormControlLabel,
+    styled,
+    CircularProgress,
+} from '@mui/material'
 // import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { FaCirclePlus } from 'react-icons/fa6'
 import Button from '@mui/material/Button'
@@ -9,6 +15,7 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 import { IoMdCloseCircle } from 'react-icons/io'
 import { LuDot } from 'react-icons/lu'
 import { RiErrorWarningLine } from 'react-icons/ri'
+import { useAccount, useBalance } from 'wagmi'
 
 const CustomCheckbox = styled(Checkbox)({
     color: '#B7ABF7', // Purple border when unchecked
@@ -30,8 +37,7 @@ type ActiveButtonProp = {
 
 const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
     const [buyorSellBtn, setBuyorSellBtn] = useState('buy/long')
-    const [DepositButton, setDepositButton] = useState('deposit')
-    const [amount, setAmount] = useState(0)
+    const [amount, setAmount] = useState<number | ''>('')
 
     // modal
     const [open, setOpen] = useState(false)
@@ -40,6 +46,17 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
 
     //leverage
     const [leverage, setLeverage] = useState<number>(15)
+
+    const { address } = useAccount()
+
+    // Get balance details
+    const { data, error, isLoading } = useBalance({
+        address: address,
+    })
+
+    // Handle loading and error states
+    // if (isLoading) return <CircularProgress color="secondary" size={17} />
+    if (error) return <p>Error: {error.message}</p>
 
     const leverageMarks = [
         { value: 1, label: '1X' },
@@ -58,8 +75,21 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
         setLeverage((prev) => Math.max(prev - 1, 1))
     }
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.trim() // Trim whitespace
+
+        if (value === '') {
+            setAmount('') // Allow clearing input
+        } else {
+            const numericValue = Number(value)
+            if (!isNaN(numericValue)) {
+                setAmount(numericValue) // Convert valid numbers
+            }
+        }
+    }
+
     const handleSliderChange = (_: Event, value: number | number[]) => {
-        setLeverage(value as number)
+        setAmount(value as number) // Slider updates input
     }
 
     return (
@@ -186,8 +216,10 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                 <p className="text-appGrey text-[11px] 2xl:text-[13px]">
                     Available Balance
                 </p>
+
                 <p className="text-end flex gap-1 text-[11px] 2xl:text-[13px] xl:items-center font-semibold">
-                    1,550.85 USD{' '}
+                    {data?.value || 0}
+                    USD{' '}
                     <button>
                         <FaCirclePlus color="#B7ABF7" />
                     </button>
@@ -219,14 +251,22 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
             </div>
 
             {/* Amount Section */}
-            <div className=" w-full bg-[#2C2D31] mt-[0.3rem] rounded-[8px] py-[0.4rem] font-medium min-h-[40px] justify-between px-[1rem] flex items-center text-[13px]  ">
+            <div className=" w-full bg-[#2C2D31] mt-[0.3rem] rounded-[8px] py-[0.4rem] font-medium min-h-[40px] gap-2 px-[1rem] flex items-center text-[13px]  ">
                 <p className="">Amount</p>
+                <input
+                    type="text"
+                    name="amount"
+                    value={amount}
+                    onChange={handleInputChange} // Only updates input locally
+                    className="py-[5px] w-full rounded-[8px] outline-none bg-transparent placeholder:text-appGrey2 px-1 md:px-2"
+                />
                 <p className="text-end gap-1 text-appGrey ">USD </p>
             </div>
+
+            {/* Slider */}
             <Slider
-                value={amount}
-                onChange={(_, value) => setAmount(value as number)}
-                defaultValue={40}
+                value={amount === '' ? 0 : amount} // If empty, default to 0
+                onChange={handleSliderChange} // Slider updates input
                 valueLabelDisplay="auto"
                 shiftStep={20}
                 step={20}
@@ -249,6 +289,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                     },
                 }}
             />
+
             <div className="flex text-appGrey mt-[-1rem] text-[12px] justify-between items-center">
                 <p className="text-appGrey text-[13px]">0</p>
                 <p className="text-appGrey text-[13px]">100%</p>
@@ -350,7 +391,9 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                     <p className="text-[#CFD3E5] capitalize">
                         Available balance
                     </p>
-                    <p className="text-end font-semibold">$2,999,765</p>
+                    <p className="text-end font-semibold">
+                        ${data?.value || 0}
+                    </p>
                 </div>
                 <div className="flex justify-between items-center">
                     <p className="text-[#CFD3E5]">Unrealized PNL</p>
@@ -364,47 +407,17 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                     variant="contained"
                     sx={{
                         fontSize: '12px',
-                        bgcolor:
-                            DepositButton === 'deposit' ? '#B5A8F7' : '#2C2D31',
-                        fontWeight: DepositButton === 'deposit' ? '500' : '400',
-                        color:
-                            DepositButton === 'deposit' ? '#1C1C1C' : '#CFD3E5',
+                        bgcolor: '#B5A8F7',
+                        fontWeight: '500',
+                        color: '#1C1C1C',
                         borderRadius: '8px',
-                        minWidth: '100px',
+                        width: '100%',
                         textTransform: 'capitalize',
                         // color: '#1C1C1C',
                         '&:hover': { bgcolor: '#9061F9' },
                     }}
-                    onClick={() => setDepositButton('deposit')}
                 >
                     Deposit
-                </Button>
-                <Button
-                    variant="contained"
-                    sx={{
-                        fontSize: '13px',
-                        bgcolor:
-                            DepositButton === 'withdraw'
-                                ? '#B5A8F7'
-                                : '#2C2D31',
-                        fontWeight:
-                            DepositButton === 'withdraw' ? '500' : '400',
-                        borderRadius: '8px',
-                        minWidth: '100px',
-                        textTransform: 'capitalize',
-                        color:
-                            DepositButton === 'withdraw'
-                                ? '#1C1C1C'
-                                : '#CFD3E5',
-                        '&:hover': {
-                            bgcolor: '#2C2D31',
-                            color: '#CFD3E5',
-                            opacity: 8,
-                        },
-                    }}
-                    onClick={() => setDepositButton('withdraw')}
-                >
-                    Withdraw
                 </Button>
             </div>
         </div>

@@ -1,14 +1,26 @@
 'use client'
 import { Button, ButtonProps, styled } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IoCloseSharp } from 'react-icons/io5'
+import { useParams } from 'next/navigation'
 
 interface CustomButtonProps extends ButtonProps {
     isActive?: boolean
 }
 
-// Extract `isActive` inside the styled function to prevent passing it to DOM
+type Token = {
+    _id: string
+    tokenId: string
+    name: string
+    ticker: string
+    description: string
+    totalSupply: number
+    delegatedSupply: number
+    dateCreated: string // ISO date string
+    __v: number
+}
+
 const CustomButton = styled(Button, {
     shouldForwardProp: (prop) => prop !== 'isActive',
 })<CustomButtonProps>(({ isActive }) => ({
@@ -30,8 +42,41 @@ const CustomButton = styled(Button, {
 export default function BuyOrSellMeme() {
     const [activeButton, setActiveButton] = useState<string>('Buy')
     const [amount, setAmount] = useState('')
+    const [ticker, setTicker] = useState<string>('')
+    const [tokens, setTokens] = useState<Token[]>([])
 
     const router = useRouter()
+    const { id } = useParams()
+
+    useEffect(() => {
+        const fetchTokens = async () => {
+            try {
+                const response = await fetch(
+                    process.env.NEXT_PUBLIC_FETCH_MEMES as string
+                )
+                const data: { status: number; data: { tokens: Token[] } } =
+                    await response.json()
+
+                if (data.status === 200 && data.data.tokens) {
+                    setTokens(data.data.tokens)
+                }
+            } catch (error) {
+                console.error('Error fetching tokens:', error)
+            }
+        }
+
+        fetchTokens()
+    }, [])
+
+    useEffect(() => {
+        if (id && tokens.length > 0) {
+            const foundToken = tokens.find((token) => token.tokenId === id)
+            if (foundToken) {
+                setTicker(foundToken.ticker)
+            }
+        }
+    }, [id, tokens]) // Runs when `id` or `tokens` change // Runs when id or memeCoinList updates
+
     return (
         <div className=" min-h-[85vh] ">
             <div className="flex w-[70%] mb-[2rem] justify-end">
@@ -99,7 +144,7 @@ export default function BuyOrSellMeme() {
                             You&apos;d get:
                         </p>
                         <p className="font-medium uppercase text-[18px] xl:text-[20px]">
-                            500PWD
+                            500{ticker}
                         </p>
                     </div>
 

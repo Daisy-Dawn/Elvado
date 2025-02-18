@@ -83,9 +83,11 @@ const OrderHistoryTable = () => {
             </div>
 
             {/* display tabs */}
-            {tabValue === 0 && <OrderHistoryTimeTable />}
-            {tabValue === 1 && <OrderHistoryTimeTable />}
-            {tabValue === 2 && <OrderHistoryTimeTable />}
+            <OrderHistoryTimeTable
+                value={
+                    tabValue === 0 ? 'day' : tabValue === 1 ? 'week' : 'month'
+                }
+            />
         </div>
     )
 }

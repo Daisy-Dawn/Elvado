@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Button, styled } from '@mui/material'
 import { RiArrowRightSLine } from 'react-icons/ri'
 import { BiSearchAlt } from 'react-icons/bi'
-import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
 import { useAppContext } from '../context/AppContext'
 import { Meme } from '../types/meme'
+import Jazzicon from 'react-jazzicon'
 
 const CustomButton = styled(Button)({
     backgroundColor: '#B5A8F7',
@@ -37,7 +37,7 @@ const MemeHero = () => {
                     setMemeCoinList(response.data.data.tokens)
                 }
             } catch (error) {
-                console.error('Error fetching memes:', error)
+                console.log('Error fetching memes:', error)
             }
         }
 
@@ -57,24 +57,18 @@ const MemeHero = () => {
                 {memeCoinList.length > 0 ? (
                     <Link
                         className="md:w-[68%] xl:w-[58%] 2xl:w-[50%] w-full border-[#B5A8F7] rounded-[11px] flex flex-col items-center md:items-start md:flex-row gap-4  md:gap-[2.5rem] shadow-sm inset-shadow-xs shadow-[#B5A8F7] py-2 md:py-[1.5rem] px-[1rem] md:px-[2.5rem] border-[1px]"
-                        href={`/meme/${memeCoinList[1].tokenId}`}
+                        href={`/meme/${memeCoinList[0].tokenId}`}
                     >
                         <div className="bg-[#2C2D31] overflow-hidden w-[45%] h-[80px] md:w-[200px] md:h-full flex justify-center rounded-[17px]">
-                            <Image
-                                width={200}
-                                height={200}
-                                className="h-full w-full object-contain"
-                                src="/images/meme/pepe-coin.png"
-                                alt="pepe coin"
-                            />
+                            <Jazzicon diameter={150} seed={0} />
                         </div>
 
                         <div className="flex flex-col w-[55%] items-center md:items-start text-foreground ">
                             <h3 className="font-medium md:text-[22px] leading-none md:leading-normal uppercase text-[18px] text-appPurple">
-                                {memeCoinList[1].name}
+                                {memeCoinList[0].name}
                             </h3>
                             <p className=" text-[14px] font-[200] text-foreground md:text-[18px]">
-                                Created by {memeCoinList[1].creator}
+                                Created by {memeCoinList[0].creator}
                             </p>
                             <div className=" hidden md:flex justify-between w-full items-center">
                                 <p className="font-[200] text-[17px]">
@@ -89,7 +83,7 @@ const MemeHero = () => {
                                     Delegated%:
                                 </p>
                                 <p className="text-appPurple font-medium text-[22px]">
-                                    {memeCoinList[1].delegatedSupply}%
+                                    {memeCoinList[0].delegatedSupply}%
                                 </p>
                             </div>
                             {/* small screen delegated and market price */}
@@ -108,12 +102,12 @@ const MemeHero = () => {
                                         Delegated%:
                                     </p>
                                     <p className="text-appPurple font-medium text-[17px] md:text-[20px]">
-                                        {memeCoinList[1].delegatedSupply}%
+                                        {memeCoinList[0].delegatedSupply}%
                                     </p>
                                 </div>
                             </div>
                             <p className="md:text-appPurple font-[200] text-foreground md:italic text-[14px] lg:text-[15px] xl:text-[17.5px]">
-                                {memeCoinList[1].description}
+                                {memeCoinList[0].description}
                             </p>
                         </div>
                     </Link>

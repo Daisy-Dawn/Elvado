@@ -1,77 +1,123 @@
-import React, { useEffect, useRef, memo } from 'react'
+import { useEffect, useRef } from 'react'
+import {
+    createChart,
+    CandlestickSeries,
+    ChartOptions,
+} from 'lightweight-charts'
 
-const TradingViewWidget: React.FC = () => {
-    const container = useRef<HTMLDivElement | null>(null)
+const CandlestickChart = () => {
+    const chartContainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (!container.current) return
+        if (chartContainerRef.current) {
+            const chartOptions: ChartOptions = {
+                layout: {
+                    textColor: 'white',
+                    background: { type: 'solid', color: 'black' },
+                },
+            }
 
-        // Prevent duplication by checking if script already exists
-        if (document.getElementById('tradingview-widget-script')) return
+            // Create the chart
+            const chart = createChart(chartContainerRef.current, chartOptions)
 
-        const script = document.createElement('script')
-        script.id = 'tradingview-widget-script' // Unique ID to prevent duplication
-        script.src =
-            'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js'
-        script.type = 'text/javascript'
-        script.async = true
-        script.innerHTML = JSON.stringify({
-            symbols: [['COINBASE:BTCUSD|1D']],
-            chartOnly: false,
-            width: '100%',
-            height: '100%',
-            locale: 'en',
-            colorTheme: 'dark',
-            autosize: true,
-            showVolume: false,
-            showMA: false,
-            hideDateRanges: false,
-            hideMarketStatus: false,
-            hideSymbolLogo: false,
-            scalePosition: 'right',
-            scaleMode: 'Normal',
-            fontFamily: 'Trebuchet MS, sans-serif',
-            fontSize: '10',
-            noTimeScale: false,
-            valuesTracking: '1',
-            changeMode: 'price-and-percent',
-            chartType: 'area',
-            maLineColor: '#2962FF',
-            maLineWidth: 1,
-            maLength: 9,
-            headerFontSize: 'medium',
-            backgroundColor: 'rgba(15, 15, 15, 1)',
-            widgetFontColor: 'rgba(255, 255, 255, 1)',
-            lineWidth: 2,
-            lineType: 0,
-            dateRanges: [
-                '1d|1',
-                '1m|30',
-                '3m|60',
-                '12m|1D',
-                '60m|1W',
-                'all|1M',
-            ],
-        })
+            const candlestickSeries = chart.addSeries(CandlestickSeries, {
+                upColor: '#26a69a',
+                downColor: '#ef5350',
+                borderVisible: false,
+                wickUpColor: '#26a69a',
+                wickDownColor: '#ef5350',
+            })
 
-        container.current.appendChild(script)
+            const data = [
+                {
+                    open: 10,
+                    high: 10.63,
+                    low: 9.49,
+                    close: 9.55,
+                    time: 1642427876,
+                },
+                {
+                    open: 9.55,
+                    high: 10.3,
+                    low: 9.42,
+                    close: 9.94,
+                    time: 1642514276,
+                },
+                {
+                    open: 9.94,
+                    high: 10.17,
+                    low: 9.92,
+                    close: 9.78,
+                    time: 1642600676,
+                },
+                {
+                    open: 9.78,
+                    high: 10.59,
+                    low: 9.18,
+                    close: 9.51,
+                    time: 1642687076,
+                },
+                {
+                    open: 9.51,
+                    high: 10.46,
+                    low: 9.1,
+                    close: 10.17,
+                    time: 1642773476,
+                },
+                {
+                    open: 10.17,
+                    high: 10.96,
+                    low: 10.16,
+                    close: 10.47,
+                    time: 1642859876,
+                },
+                {
+                    open: 10.47,
+                    high: 11.39,
+                    low: 10.4,
+                    close: 10.81,
+                    time: 1642946276,
+                },
+                {
+                    open: 10.81,
+                    high: 11.6,
+                    low: 10.3,
+                    close: 10.75,
+                    time: 1643032676,
+                },
+                {
+                    open: 10.75,
+                    high: 11.6,
+                    low: 10.49,
+                    close: 10.93,
+                    time: 1643119076,
+                },
+                {
+                    open: 10.93,
+                    high: 11.53,
+                    low: 10.76,
+                    close: 10.96,
+                    time: 1643205476,
+                },
+            ]
 
-        return () => {
-            // Clean up by removing the widget when the component unmounts
-            if (container.current) {
-                container.current.innerHTML = ''
+            candlestickSeries.setData(data)
+
+            chart.timeScale().fitContent()
+
+            return () => {
+                chart.remove()
             }
         }
     }, [])
 
     return (
         <div
-            className="tradingview-widget-container w-full h-full"
-            ref={container}
-        >
-            <div className="tradingview-widget-container__widget"></div>
-        </div>
+            id="container"
+            ref={chartContainerRef}
+            style={{ position: 'relative', width: '100%', height: '100%' }}
+        />
     )
 }
 
-export default memo(TradingViewWidget)
+export default CandlestickChart

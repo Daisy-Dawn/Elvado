@@ -1,16 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { FiSearch } from 'react-icons/fi'
 import { Button, styled } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { IoCloseSharp } from 'react-icons/io5'
-
-interface Wallet {
-    logo: string
-    name: string
-    active: string
-}
+import { useConnect, useAccount } from 'wagmi'
 
 const CustomButton = styled(Button)({
     backgroundColor: '#B5A8F7',
@@ -26,62 +21,34 @@ const CustomButton = styled(Button)({
     },
 })
 
-const walletList: Wallet[] = [
-    {
-        logo: '/images/connect-wallet/meta-mask.svg',
-        name: 'Metamask',
-        active: 'metamask',
-    },
-    {
-        logo: '/images/connect-wallet/coinbase.svg',
-        name: 'Coinbase Wallet',
-        active: 'coinbase',
-    },
-    {
-        logo: '/images/connect-wallet/wallet-connect.png',
-        name: 'Wallet Connect',
-        active: 'walletConnect',
-    },
-    {
-        logo: '/images/connect-wallet/1inch.svg',
-        name: '1inch',
-        active: '1inch',
-    },
-    {
-        logo: '/images/connect-wallet/rainbow.svg',
-        name: 'Rainbow',
-        active: 'rainbow',
-    },
-    {
-        logo: '/images/connect-wallet/coin98.svg',
-        name: 'Coin 98',
-        active: 'coin98',
-    },
-    {
-        logo: '/images/connect-wallet/zerion.png',
-        name: 'Zerion',
-        active: 'zerion',
-    },
-    {
-        logo: '/images/connect-wallet/token-pocket.svg',
-        name: 'Token Pocket',
-        active: 'tokenpocket',
-    },
-    {
-        logo: '/images/connect-wallet/trustwallet.svg',
-        name: 'Trust Wallet',
-        active: 'trustwallet',
-    },
-]
-
 export default function ConnectWallet() {
-    const [activeButton, setActiveButton] = useState<string>('metamask')
     const router = useRouter()
+    const { connectors, connect } = useConnect()
+    const { isConnected } = useAccount() // To track connection status
 
-    const handleClick = (wallet: Wallet) => {
-        setActiveButton(wallet.active)
-        router.push('/connect-wallet/signin-message') // Navigate to the respective route
+    // router.push('/connect-wallet/signin-message') // Navigate to the respective route
+
+    const connectorLogos: Record<string, string> = {
+        injected: '/images/connect-wallet/1inch.svg',
+        walletConnect: '/images/connect-wallet/wallet-connect.png',
+        metaMaskSDK: '/images/connect-wallet/meta-mask.svg',
+        safe: '/images/connect-wallet/trustwallet.svg',
+        coinbaseWalletSDK: '/images/coinbase1.svg',
     }
+
+    // Redirect to /trade after 2 seconds when connection is successful
+    useEffect(() => {
+        if (isConnected) {
+            const timeout = setTimeout(() => {
+                router.push('/trade')
+            }, 2000) // Delay for 2 seconds
+
+            // Clean up the timeout if the component is unmounted
+            return () => clearTimeout(timeout)
+        }
+    }, [isConnected, router])
+
+    console.log('list of connectors: ', connectors)
     return (
         <div className="w-full h-screen flex justify-center items-start md:items-center">
             <div className="2xl:w-[35%]  xl:w-[40%] lg:w-[50%] md:w-[75%] w-full shadow-sm rounded-[8px] py-[2rem] px-[1rem] md:px-[2rem] bg-[#111111] flex flex-col gap-[1rem]">
@@ -115,8 +82,8 @@ export default function ConnectWallet() {
                     {/* search input */}
                     <div className=" w-full rounded-[20px] bg-[#2C2D31] flex items-center">
                         <input
-                            placeholder="Search for token"
-                            className=" py-[10px] w-[93%] outline-none bg-transparent placeholder:text-appGrey2 px-[15px] "
+                            placeholder="Search and connect your wallet"
+                            className=" py-[7px] w-[93%] placeholder:text-[13px] placeholder:font-extralight outline-none bg-transparent placeholder:text-appGrey2 px-[15px] "
                         />
                         <FiSearch
                             className="text-appPurple mr-4 md:mr-0"
@@ -126,28 +93,26 @@ export default function ConnectWallet() {
 
                     {/* wallets */}
                     <div className="flex flex-wrap mt-[1rem] gap-4">
-                        {walletList.map((wallet) => (
+                        {connectors.map((connector) => (
                             <button
-                                key={wallet.active}
-                                onClick={() => handleClick(wallet)}
-                                className={`border-[2px] rounded-[8px] py-[0.5rem] px-[0.7rem] flex gap-2 items-center transition-all 
-                        ${
-                            activeButton === wallet.active
-                                ? 'border-appPurple'
-                                : 'border-[#4B5563] hover:border-appPurple'
-                        }`}
+                                key={connector.uid}
+                                className="border-[2px] rounded-[8px] py-[0.5rem] px-[0.7rem] flex gap-2 items-center transition-all border-[#4B5563] hover:border-appPurple"
+                                onClick={() => connect({ connector })}
                             >
                                 <div className="w-[25px] h-[25px]">
                                     <Image
-                                        src={wallet.logo}
-                                        alt={`${wallet.name} Logo`}
+                                        src={
+                                            connectorLogos[connector.id] ||
+                                            '/images/connect-wallet/meta-mask.svg'
+                                        }
+                                        alt={`${connector.name} Logo`}
                                         width={25}
                                         height={25}
                                         className="w-full h-full object-contain"
                                     />
                                 </div>
                                 <p className="text-appGrey capitalize text-[14px]">
-                                    {wallet.name}
+                                    {connector.name}
                                 </p>
                             </button>
                         ))}

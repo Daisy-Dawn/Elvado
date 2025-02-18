@@ -10,6 +10,7 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material'
+import { useAccount } from 'wagmi'
 
 interface OpenOrder {
     _id: string
@@ -41,45 +42,34 @@ interface ApiResponse<T> {
     data: T
 }
 
-const fetchUserOpenOrders = async (address: string): Promise<OpenOrder[]> => {
-    try {
-        const response = await axios.get<ApiResponse<OpenOrder[]>>(
-            `${process.env.NEXT_PUBLIC_GET_USERS_OPEN_ORDERS}/${address}`
-        )
-
-        if (response.data.status === 200) {
-            return response.data.data
-        } else {
-            console.error('Failed to fetch open orders:', response.data.msg)
-            return []
-        }
-    } catch (error) {
-        console.error('Error fetching open orders:', error)
-        return []
-    }
-}
-
 const OpenOrdersTables = () => {
     const [openOrders, setOpenOrders] = useState<OpenOrder[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
-    const address = '0x65f6Dd5E5f4745B61E0f4b68d3dD5BD0B960F5b1'
+    const { address } = useAccount()
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            setError(null)
-            const orders = await fetchUserOpenOrders(address)
-            if (orders.length === 0) {
-                setError('No open orders found.')
+        const fetchUserOpenOrders = async () => {
+            setLoading(true) // Set loading before starting the request
+            try {
+                const response = await axios.get<ApiResponse<OpenOrder[]>>(
+                    `${process.env.NEXT_PUBLIC_GET_USERS_OPEN_ORDERS}/${address}`
+                )
+
+                if (response.data.status === 200) {
+                    setOpenOrders(response.data.data)
+                }
+            } catch (error) {
+                console.log('Error fetching open orders:', error)
+                setError('Error fetching open orders')
+            } finally {
+                setLoading(false) // Ensure loading is always set to false
             }
-            setOpenOrders(orders)
-            setLoading(false)
         }
 
-        fetchData()
-    }, [])
+        fetchUserOpenOrders()
+    }, [address]) // Include `address` in dependency array if it changes
 
     const formatTime = (isoString: string): string => {
         const date = new Date(isoString)
@@ -143,7 +133,7 @@ const OpenOrdersTables = () => {
                 </TableHead>
                 {/* Table body */}
                 <TableBody>
-                    {openOrders.length > 0 ? (
+                    {address && openOrders.length > 0 ? (
                         openOrders.map((order) => (
                             <TableRow key={order._id}>
                                 {/* contracts */}
@@ -184,17 +174,17 @@ const OpenOrdersTables = () => {
                                 >
                                     <p
                                         className={` ${
-                                            order.type === 'Buy'
+                                            order.leverageType === 'Buy'
                                                 ? 'text-appGreen'
                                                 : 'text-appDarkRed'
                                         }`}
                                     >
-                                        {order.type}
+                                        {order.leverageType}
                                     </p>
                                 </TableCell>
                                 {/* order type  */}
                                 <TableCell sx={{ textAlign: 'center' }}>
-                                    {order.leverageType}
+                                    {order.type}
                                 </TableCell>
                                 {/* status */}
                                 <TableCell sx={{ textAlign: 'center' }}>
@@ -215,7 +205,7 @@ const OpenOrdersTables = () => {
                     ) : (
                         <TableRow>
                             <TableCell colSpan={9} sx={{ textAlign: 'center' }}>
-                                <div className="flex min-h-[40vh] justify-center items-center">
+                                <div className="flex min-h-[40vh] w-full justify-center items-center">
                                     <p className="text-appGrey text-[15px] font-medium">
                                         You have no open orders
                                     </p>
