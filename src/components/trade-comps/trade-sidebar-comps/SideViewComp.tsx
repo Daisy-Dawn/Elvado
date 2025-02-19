@@ -37,7 +37,47 @@ type ActiveButtonProp = {
 
 const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
     const [buyorSellBtn, setBuyorSellBtn] = useState('buy/long')
-    const [amount, setAmount] = useState<number | ''>('')
+    const [amount, setAmount] = useState<string>('')
+
+    const { address } = useAccount()
+
+    // Get balance details
+    const { data, error, isLoading } = useBalance({
+        address: address,
+    })
+
+    const availableBalance = data?.value
+        ? Number((BigInt(data.value) / BigInt(1e18)).toString()) // Convert balance to number
+        : 0
+
+    // Handle Input Change
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.trim()
+
+        if (value === '') {
+            setAmount('') // Allow input to be empty
+        } else {
+            const numericValue = Number(value)
+            if (!isNaN(numericValue)) {
+                if (numericValue > availableBalance) {
+                    alert('The entered amount exceeds your available balance.')
+                } else {
+                    setAmount(value) // Keep it as a string to allow smooth typing
+                }
+            }
+        }
+    }
+
+    // Handle Slider Change
+    const handleSliderChange = (_: Event, value: number | number[]) => {
+        const percentage = value as number
+        const calculatedAmount = (percentage / 100) * availableBalance
+        setAmount(calculatedAmount.toFixed(2)) // Keep 2 decimal places
+    }
+
+    // Fix NaN issue in Slider
+    const sliderValue =
+        availableBalance > 0 ? (Number(amount) / availableBalance) * 100 : 0
 
     // modal
     const [open, setOpen] = useState(false)
@@ -46,13 +86,6 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
 
     //leverage
     const [leverage, setLeverage] = useState<number>(15)
-
-    const { address } = useAccount()
-
-    // Get balance details
-    const { data, error, isLoading } = useBalance({
-        address: address,
-    })
 
     // Handle loading and error states
     // if (isLoading) return <CircularProgress color="secondary" size={17} />
@@ -73,23 +106,6 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
 
     const handleDecrease = () => {
         setLeverage((prev) => Math.max(prev - 1, 1))
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.trim() // Trim whitespace
-
-        if (value === '') {
-            setAmount('') // Allow clearing input
-        } else {
-            const numericValue = Number(value)
-            if (!isNaN(numericValue)) {
-                setAmount(numericValue) // Convert valid numbers
-            }
-        }
-    }
-
-    const handleSliderChange = (_: Event, value: number | number[]) => {
-        setAmount(value as number) // Slider updates input
     }
 
     return (
@@ -218,8 +234,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                 </p>
 
                 <p className="text-end flex gap-1 text-[11px] 2xl:text-[13px] xl:items-center font-semibold">
-                    {data?.value || 0}
-                    USD{' '}
+                    {availableBalance} USD
                     <button>
                         <FaCirclePlus color="#B7ABF7" />
                     </button>
@@ -265,10 +280,9 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
 
             {/* Slider */}
             <Slider
-                value={amount === '' ? 0 : amount} // If empty, default to 0
-                onChange={handleSliderChange} // Slider updates input
+                value={sliderValue}
+                onChange={handleSliderChange}
                 valueLabelDisplay="auto"
-                shiftStep={20}
                 step={20}
                 marks
                 min={0}
@@ -392,7 +406,7 @@ const SideViewComp = ({ activeButton }: ActiveButtonProp) => {
                         Available balance
                     </p>
                     <p className="text-end font-semibold">
-                        ${data?.value || 0}
+                        ${availableBalance}{' '}
                     </p>
                 </div>
                 <div className="flex justify-between items-center">

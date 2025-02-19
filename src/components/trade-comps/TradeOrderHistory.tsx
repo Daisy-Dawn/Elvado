@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import {
     Tabs,
@@ -10,11 +10,18 @@ import {
     Checkbox,
     Button,
 } from '@mui/material'
-import PositionsTable from './trade-order-history-tabs/PositionsTable'
-import OpenOrdersTables from './trade-order-history-tabs/OpenOrdersTables'
+import PositionsTable, {
+    UserPosition,
+} from './trade-order-history-tabs/PositionsTable'
+import OpenOrdersTables, {
+    ApiResponse,
+    OpenOrder,
+} from './trade-order-history-tabs/OpenOrdersTables'
 import OrderHistoryTable from './trade-order-history-tabs/OrderHistoryTable'
 import PaymentsTable from './trade-order-history-tabs/PaymentsTable'
 import AssetsTable from './trade-order-history-tabs/AssetsTable'
+import { useAccount } from 'wagmi'
+import axios from 'axios'
 
 const StyledTab = styled(Tab)(({ theme }) => ({
     textTransform: 'none',
@@ -93,7 +100,10 @@ const TradeOrderHistory = () => {
     const [tabValue, setTabValue] = useState(0)
     const [hideAssets, setHideAssets] = useState<boolean>(false)
     const [showPositions, setShowPositions] = useState<boolean>(true)
+    const [userPositions, setUserPositions] = useState<UserPosition[]>([])
+    const [openOrders, setOpenOrders] = useState<OpenOrder[]>([])
 
+    const { address } = useAccount()
     const handleCheckboxChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -104,6 +114,48 @@ const TradeOrderHistory = () => {
     ) => {
         setShowPositions(event.target.checked)
     }
+
+    useEffect(() => {
+        const fetchUserOpenOrders = async () => {
+            try {
+                const response = await axios.get<ApiResponse<OpenOrder[]>>(
+                    `${process.env.NEXT_PUBLIC_GET_USERS_OPEN_ORDERS}/${address}`
+                )
+
+                if (response.data.status === 200) {
+                    setOpenOrders(response.data.data)
+                }
+            } catch (error) {
+                console.log('Error fetching open orders:', error)
+            }
+        }
+
+        fetchUserOpenOrders()
+    }, [address])
+
+    // Fetch user positions
+    const fetchUserPositions = async () => {
+        try {
+            const response = await axios.get<ApiResponse<UserPosition[]>>(
+                `${process.env.NEXT_PUBLIC_GET_USERS_POSITIONS}/${address}`
+            )
+
+            if (response.data.status === 200) {
+                setUserPositions(response.data.data)
+            } else {
+                console.log(
+                    'Failed to fetch user positions:',
+                    response.data.msg
+                )
+            }
+        } catch (error) {
+            console.log('Error fetching user positions:', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchUserPositions()
+    }, [])
 
     return (
         <div className="min-h-[50vh] text-[13px] py-[0.5rem]">
@@ -120,10 +172,18 @@ const TradeOrderHistory = () => {
                     }}
                 >
                     <StyledTab1
-                        label={<StyledBadge>Positions (5)</StyledBadge>}
+                        label={
+                            <StyledBadge>
+                                Positions ({userPositions.length}){' '}
+                            </StyledBadge>
+                        }
                     />
                     <StyledTab
-                        label={<StyledBadge>Open orders (4)</StyledBadge>}
+                        label={
+                            <StyledBadge>
+                                Open orders ({openOrders.length}){' '}
+                            </StyledBadge>
+                        }
                     />
                     <StyledTab label="Order History" />
                     <StyledTab label="Payments" />

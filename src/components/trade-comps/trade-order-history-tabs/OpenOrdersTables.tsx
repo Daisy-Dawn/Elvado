@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useAccount } from 'wagmi'
 
-interface OpenOrder {
+export interface OpenOrder {
     _id: string
     orderId: string
     positionType: string
@@ -36,7 +36,7 @@ interface OpenOrder {
     time: string
 }
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
     status: number
     msg: string
     data: T

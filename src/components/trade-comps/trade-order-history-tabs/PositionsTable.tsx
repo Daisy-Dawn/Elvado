@@ -16,7 +16,7 @@ import axios from 'axios'
 import { useApi } from '@/components/context/ApiContext'
 import { useAccount } from 'wagmi'
 
-interface UserPosition {
+export interface UserPosition {
     _id: string
     orderId: string
     positionId: string
@@ -37,7 +37,7 @@ interface UserPosition {
     __v: number
 }
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
     status: number
     msg: string
     data: T
