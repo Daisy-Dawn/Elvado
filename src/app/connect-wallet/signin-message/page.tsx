@@ -24,7 +24,6 @@ const CustomButton1 = styled(Button)({
     fontWeight: '500',
     textTransform: 'none',
     padding: '10px 25px',
-    // fontSize: '14px',
     '&:hover': {
         backgroundColor: '#E6E6FA',
         color: '#222',

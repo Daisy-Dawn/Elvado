@@ -31,8 +31,6 @@ export default function ConnectWallet() {
         connector.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
-    // router.push('/connect-wallet/signin-message') // Navigate to the respective route
-
     const connectorLogos: Record<string, string> = {
         injected: '/images/connect-wallet/1inch.svg',
         walletConnect: '/images/connect-wallet/wallet-connect.png',

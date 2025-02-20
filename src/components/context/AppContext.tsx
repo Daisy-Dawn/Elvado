@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from 'react'
 import { Meme } from '../types/meme'
 
-// Define the shape of the context state
+// context state
 interface AppState {
     searchTerm: string
     memeCoinList: Meme[]

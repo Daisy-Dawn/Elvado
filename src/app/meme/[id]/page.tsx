@@ -17,7 +17,7 @@ type Token = {
     description: string
     totalSupply: number
     delegatedSupply: number
-    dateCreated: string // ISO date string
+    dateCreated: string
     __v: number
 }
 

@@ -39,12 +39,11 @@ type MarketPosition = {
     sl: number
     pickedUp: boolean
     filled: boolean
-    fillingOrders: unknown[] // Adjust type if needed
+    fillingOrders: unknown[]
     isClosingPositionOrder: boolean
     positionIdClosing: string | null
     deleted: boolean
-    time: string // Consider using Date type if you parse it
-    __v: number
+    time: string
 }
 
 type MarketData = {
@@ -214,7 +213,7 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
         fetchFundingCountdown()
         fetchBtcEntryPrice()
         fetchMarketInfo()
-        fetchLatestTrades() // Fetch latest trades on mount
+        fetchLatestTrades()
     }, [])
 
     return (

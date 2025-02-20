@@ -64,12 +64,12 @@ const OpenOrdersTables = () => {
                 console.log('Error fetching open orders:', error)
                 setError('Error fetching open orders')
             } finally {
-                setLoading(false) // Ensure loading is always set to false
+                setLoading(false)
             }
         }
 
         fetchUserOpenOrders()
-    }, [address]) // Include `address` in dependency array if it changes
+    }, [address])
 
     const formatTime = (isoString: string): string => {
         const date = new Date(isoString)

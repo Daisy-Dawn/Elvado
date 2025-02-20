@@ -87,7 +87,7 @@ const MemeCoinsDisplay = () => {
                             <MemeCard
                                 image={
                                     index === 0 ? (
-                                        <Jazzicon diameter={120} seed={0} /> // Always use the same seed for index 0
+                                        <Jazzicon diameter={120} seed={0} /> // use same seed for index 0
                                     ) : (
                                         <Jazzicon diameter={120} seed={index} /> // Regular behavior for other indexes
                                     )
